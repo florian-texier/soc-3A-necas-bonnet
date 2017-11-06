@@ -11,7 +11,11 @@ Jérôme :
 * Recherches Kubernetes
 
 Florian :
+* Mise en place du detecteur de beacon
+* Tentative d'afficher le beacon sur la mainActivity
 
+# 07/11
+## XXX
 
 A GARDER : 
 Tuto activer beacon sur Raspberry => https://learn.adafruit.com/pibeacon-ibeacon-with-a-raspberry-pi?view=all
