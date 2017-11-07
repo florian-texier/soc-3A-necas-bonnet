@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Proj3ADemo.iml" filepath="$PROJECT_DIR$/Proj3ADemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/beacondemo/beacondemo.iml" filepath="$PROJECT_DIR$/beacondemo/beacondemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/geocasher/geocasher.iml" filepath="$PROJECT_DIR$/geocasher/geocasher.iml" />
+      <module fileurl="file://$PROJECT_DIR$/qrcodedemo/qrcodedemo.iml" filepath="$PROJECT_DIR$/qrcodedemo/qrcodedemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wsclientdemo/wsclientdemo.iml" filepath="$PROJECT_DIR$/wsclientdemo/wsclientdemo.iml" />
+    </modules>
+  </component>
+</project>
