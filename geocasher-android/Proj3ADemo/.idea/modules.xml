@@ -3,10 +3,14 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Proj3ADemo.iml" filepath="$PROJECT_DIR$/Proj3ADemo.iml" />
+      <module fileurl="file://C:\Users\Jerome\Desktop\soc-3A-necas-bonnet\geocasher-android\Proj3ADemo\Proj3ADemo.iml" filepath="C:\Users\Jerome\Desktop\soc-3A-necas-bonnet\geocasher-android\Proj3ADemo\Proj3ADemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/beacondemo/beacondemo.iml" filepath="$PROJECT_DIR$/beacondemo/beacondemo.iml" />
+      <module fileurl="file://C:\Users\Jerome\Desktop\soc-3A-necas-bonnet\geocasher-android\Proj3ADemo\beacondemo\beacondemo.iml" filepath="C:\Users\Jerome\Desktop\soc-3A-necas-bonnet\geocasher-android\Proj3ADemo\beacondemo\beacondemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/geocasher/geocasher.iml" filepath="$PROJECT_DIR$/geocasher/geocasher.iml" />
       <module fileurl="file://$PROJECT_DIR$/qrcodedemo/qrcodedemo.iml" filepath="$PROJECT_DIR$/qrcodedemo/qrcodedemo.iml" />
+      <module fileurl="file://C:\Users\Jerome\Desktop\soc-3A-necas-bonnet\geocasher-android\Proj3ADemo\qrcodedemo\qrcodedemo.iml" filepath="C:\Users\Jerome\Desktop\soc-3A-necas-bonnet\geocasher-android\Proj3ADemo\qrcodedemo\qrcodedemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/wsclientdemo/wsclientdemo.iml" filepath="$PROJECT_DIR$/wsclientdemo/wsclientdemo.iml" />
+      <module fileurl="file://C:\Users\Jerome\Desktop\soc-3A-necas-bonnet\geocasher-android\Proj3ADemo\wsclientdemo\wsclientdemo.iml" filepath="C:\Users\Jerome\Desktop\soc-3A-necas-bonnet\geocasher-android\Proj3ADemo\wsclientdemo\wsclientdemo.iml" />
     </modules>
   </component>
 </project>

@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
     BarcodeDetector mDetector;
     CameraSource mCamera;
     Button clickButton;
+    Button button2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
         mTextView2 = (TextView) findViewById(R.id.textView2);
         imageVi = (ImageView) findViewById(R.id.imageView);
         clickButton = (Button) findViewById(R.id.btnSelectImage);
+        button2 = (Button) findViewById(R.id.button2);
 
         if (checkCameraPermissions()) {
             setupDetectorAndCamera();
@@ -96,7 +98,16 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
             }
         });
 
+
+        button2.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                demoPostHttpRequest();
+            }
+        });
+
         mRequestQueue = Volley.newRequestQueue(this);
+
     }
 
     /************************* Screen interact *************************/
@@ -290,11 +301,11 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
 
     /************************* VOLLEY *************************/
     void demoPostHttpRequest() {
-        String endpointUrl ="https://polar-bayou-90643.herokuapp.com/inscrit";
+        String endpointUrl ="https://polar-bayou-90643.herokuapp.com/inscription";
 
         JSONObject postData = new JSONObject();
         try {
-            postData.put("id_joueur", "Bloubi");
+            postData.put("id_joueur","Bloubi");
         } catch (Exception e) {
             // do nothing
         }
