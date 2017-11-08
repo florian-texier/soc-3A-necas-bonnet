@@ -39,6 +39,7 @@
 ## Backend 
 
 * Petit serveur sur la Pi + prise en main du Sense Hate (led) (|| A REMPLACER PAR UN AUTRE MOYEN POUR AFFICHER SI LA PHOTO EST OK OU NON||)
+* Ajout 21h03 : Changement sur la Pi : Je fais des requête get vers mon serveur pour récupérer un état PB => Variable globale qui zozotte.
 
 
 
