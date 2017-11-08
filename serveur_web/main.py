@@ -7,10 +7,45 @@ import base64
 import googleapiclient.discovery
 from google.oauth2 import service_account
 
+
 app = Flask(__name__)
 app.debug = True
 CORS(app)
 
+
+### TEMPORAIRE POUR TESTER ####
+
+status ='c'
+
+#0 : en attente
+#1 : image OK
+#2 : image NOK
+
+@app.route('/test',methods=['GET'])
+def test():
+    global status
+    print(status)
+    return ('%s') %  status
+
+@app.route('/test0')
+def test0():
+    global status
+    status = 'c'
+    return ('%s') % status
+
+@app.route('/test1')
+def test1():
+    global status
+    status = 'a'
+    return ('%s') % status
+
+@app.route('/test2')
+def test2():
+    global status
+    status = 'b'
+    return ('%s') % status
+
+####################################
 
 
 #Vider la base
@@ -59,7 +94,8 @@ def ajout_inscrit():
 #Poster une image
 @app.route('/postimage', methods=['post'])
 def envoyerimagegoogle():
-  
+
+
     # [START authenticate]
     credentials = service_account.Credentials.from_service_account_file('credentials.json')
     service = googleapiclient.discovery.build('vision', 'v1', credentials=credentials)
@@ -84,9 +120,8 @@ def envoyerimagegoogle():
     label = response['responses'][0]['labelAnnotations'][0]['description']
 
     print(response)
-
     response ={"response":"Photo analysee"}
-    status = 0
+ 
     return json.dumps(response), 201, {'Content-Type': 'application/json'}
 
 
