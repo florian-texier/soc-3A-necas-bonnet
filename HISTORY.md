@@ -12,7 +12,7 @@
 * Tentative d'afficher le beacon sur la mainActivity
 
 # 07/11
-##Android
+## Android
 * Modification du serveur Web :
 	* Actualisation et tests de la route pour effectuer une inscription
 	* Premier pas d'Intégration serveur/android OK : J'appuis sur un bouton de l'interface (téléphone), le téléphone envoi un POST, l'user si il n'existe pas est ajouté dans la base (verifié) et le serveur renvoi un JSON OK.
@@ -25,7 +25,7 @@
 * Mise à jour de la main activity pour qu'elle contienne le barcode & beacon
 * Communique avec le serveur heroku (creation d'un utilisateur)
 
-##Backend
+## Backend
 * Matin - Tenter desespérement de faire fonctionner l'authentification vers google. (Sans Succés)
 * Google Cloud Vision (enfin!) mis en place
 
