@@ -1,19 +1,17 @@
 from sense_hat import SenseHat
-
+import requests
+import time
 from flask import Flask
+valeur = 50
+sense = SenseHat()
+while  (1) :
+	r = requests.get('http://polar-bayou-90643.herokuapp.com/test')
+	print(r.text)
+	if (r.text == 'a') : 
+		sense.show_message(":)",text_colour=(0, 255, 0))
 
-app = Flask(__name__)
-
-
-@app.route('/toto')
-def index():
-	sense.show_message(":)",text_colour=(255, 0, 0))
-	sense.show_message(":x",text_colour=(0, 255, 0))
-	sense.show_message(":(",text_colour=(0, 0, 255))
-	return 'Hello world'
-
-
-if __name__ == '__main__':
-	app.run(debug=True, host='127.0.0.1')
-
-
+	if (r.text =='b') :
+		sense.show_message(":(",text_colour=(0, 0, 255))
+	if(r.text =='c'):
+		sense.show_message(":x",text_colour=(255,0,0))
+	time.sleep(1)
