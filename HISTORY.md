@@ -29,6 +29,19 @@
 * Matin - Tenter desespérement de faire fonctionner l'authentification vers google. (Sans Succés)
 * Google Cloud Vision (enfin!) mis en place
 
+# 08/11
+
+## Android
+
+* Modification du serveur Web :
+	* Post Image fonctionnel, le téléphone envoi l'image au serveur, le serveur l'envoi à Google et renvoi la réponse au téléphone.
+	
+## Backend 
+
+* Petit serveur sur la Pi + prise en main du Sense Hate (led) (|| A REMPLACER PAR UN AUTRE MOYEN POUR AFFICHER SI LA PHOTO EST OK OU NON||)
+
+
+
 A GARDER : 
 Tuto activer beacon sur Raspberry => https://learn.adafruit.com/pibeacon-ibeacon-with-a-raspberry-pi?view=all
 Créer une application web Docker Python et PostgreSQL dans Azure => https://docs.microsoft.com/fr-fr/azure/app-service/containers/tutorial-docker-python-postgresql-app
