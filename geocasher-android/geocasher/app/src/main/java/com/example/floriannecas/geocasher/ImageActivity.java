@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -29,6 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import static com.example.floriannecas.geocasher.MainActivity.MyPREFERENCES;
 
@@ -94,6 +96,8 @@ public class ImageActivity extends AppCompatActivity {
                 Log.d("picUri", picUri.toString());
                 Log.d("filePath", filePath);
 
+
+
                 imageView.setImageURI(picUri);
 
             }
@@ -106,8 +110,19 @@ public class ImageActivity extends AppCompatActivity {
 
         int h = 200; // height in pixels
         int w = 200; // width in pixels
+        String lat = "";
+        String longi = "";
+
+        try {
+            final ExifInterface exifInterface = new ExifInterface(filePath);
+            lat = exifInterface.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
+            longi = exifInterface.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
+
+        } catch (IOException e) {
+            Log.e("ERROR", "Couldn't read exif info: " + e.getLocalizedMessage());
+        }
         Bitmap scaled = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(imagePath), w, h, true);
-        demoPostHttpRequest(getStringImage(scaled));
+        httpPostImage(getStringImage(scaled),lat, longi);
 
     }
 
@@ -165,7 +180,7 @@ public class ImageActivity extends AppCompatActivity {
         mRequestQueue.add(request);
     }
 
-    void demoPostHttpRequest(final String image64) {
+    void httpPostImage(final String image64, String lat, String longi) {
 
         SharedPreferences prefs = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
         String restoredText = prefs.getString("name", null);
@@ -173,6 +188,8 @@ public class ImageActivity extends AppCompatActivity {
         JSONObject postData = new JSONObject();
         try {
             postData.put("name", restoredText);
+            postData.put("lat", lat);
+            postData.put("long", longi);
             postData.put("image", image64);
         } catch (Exception e) {
             // do nothing
