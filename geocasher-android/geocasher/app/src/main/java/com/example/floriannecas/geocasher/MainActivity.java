@@ -18,8 +18,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import org.altbeacon.beacon.*;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 
@@ -38,7 +43,11 @@ import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class MainActivity extends AppCompatActivity implements BeaconConsumer{
@@ -54,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
 
     private BeaconManager beaconManager;
     RequestQueue mRequestQueue;
+    ArrayList<HashMap<String, String>> objectList;
 
     // View Components
     TextView mQrCodeLabel;
@@ -61,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
     Button mbtnSelectImage;
     Button mbtnSignIn;
     EditText mNameEditor;
+    ListView mList;
 
     // Model Components
     BarcodeDetector mDetector;
@@ -72,6 +83,9 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        objectList = new ArrayList<>();
+
+        mList = (ListView) findViewById(R.id.listView);
         mQrCodeLabel = (TextView) findViewById(R.id.QrCodeLabel);
         mBeaconLabel = (TextView) findViewById(R.id.BeaconLabel);
         mbtnSelectImage = (Button) findViewById(R.id.btnSelectImage);
@@ -84,8 +98,8 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
         if (restoredText != null) {
             Log.e(TAG, restoredText);
             mNameEditor.setText(restoredText);
-            mbtnSignIn.setEnabled(false);
-            mNameEditor.setEnabled(false);
+            //mbtnSignIn.setEnabled(false);
+            //mNameEditor.setEnabled(false);
         }
 
         if (checkCameraPermissions()) {
@@ -335,8 +349,14 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
             @Override
             public void onResponse(JSONObject response) {
                 Log.i(TAG, "Success post");
-                mbtnSignIn.setEnabled(false);
-                mNameEditor.setEnabled(false);
+                Log.e(TAG, response.toString());
+                //mbtnSignIn.setEnabled(false);
+                //mNameEditor.setEnabled(false);
+                try {
+                    fillListView(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
                 SharedPreferences.Editor editor = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE).edit();
                 editor.putString("name", user);
@@ -356,6 +376,28 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, endpointUrl, postData, onSuccess, onError);
 
         mRequestQueue.add(request);
+    }
+
+    public void fillListView(JSONObject tofill) throws JSONException {
+
+        // Getting JSON Array node
+        JSONArray objets = tofill.getJSONArray("objet");
+        
+
+        for (int i = 0; i < objets.length(); i++) {
+            String objetToFill = objets.getString(i);
+            //Log.e(TAG, objetToFill);
+
+            HashMap<String, String> objectHM = new HashMap<>();
+            objectHM.put("name", objetToFill);
+            objectList.add(objectHM);
+        }
+
+        ListAdapter adapter = new SimpleAdapter(
+                MainActivity.this, objectList, R.layout.object_list, new String[]{"name"}, new int[]{R.id.name});
+
+        mList.setAdapter(adapter);
+
     }
 
 

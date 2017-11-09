@@ -2,6 +2,7 @@ package com.example.floriannecas.geocasher;
 
 import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,6 +29,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+
+import static com.example.floriannecas.geocasher.MainActivity.MyPREFERENCES;
 
 
 public class ImageActivity extends AppCompatActivity {
@@ -164,8 +167,12 @@ public class ImageActivity extends AppCompatActivity {
 
     void demoPostHttpRequest(final String image64) {
 
+        SharedPreferences prefs = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
+        String restoredText = prefs.getString("name", null);
+
         JSONObject postData = new JSONObject();
         try {
+            postData.put("name", restoredText);
             postData.put("image", image64);
         } catch (Exception e) {
             // do nothing
