@@ -57,8 +57,6 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
     int PERMISSION_ALL = 1;
     String BASE_URL = "https://polar-bayou-90643.herokuapp.com/";
 
-    SharedPreferences sharedpreferences;
-
     static final String TAG = "Geocasher";
 
     private BeaconManager beaconManager;
@@ -293,8 +291,8 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
             public void didRangeBeaconsInRegion(Collection<Beacon> collection, Region region) {
                 for(Beacon beacon : collection) {
                     //displayBeacon(Double.toString(beacon.getDistance()));
-                    Log.i(TAG, "Detected beacon : " + beacon.getId1());
-                    Log.i(TAG, "Detected beacon @ distance " + beacon.getDistance());
+                    //Log.i(TAG, "Detected beacon : " + beacon.getId1());
+                    //Log.i(TAG, "Detected beacon @ distance " + beacon.getDistance());
                     displayBeacon("Beacon distance : " + Double.toString(beacon.getDistance()));
                     changeBtnImageState(true);
                 }
@@ -304,17 +302,17 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
         beaconManager.addMonitorNotifier(new MonitorNotifier() {
             @Override
             public void didEnterRegion(Region region) {
-                Log.i(TAG, "didEnterRegion");
+                //Log.i(TAG, "didEnterRegion");
             }
 
             @Override
             public void didExitRegion(Region region) {
-                Log.i(TAG, "didExitRegion");
+                //Log.i(TAG, "didExitRegion");
             }
 
             @Override
             public void didDetermineStateForRegion(int i, Region region) {
-                Log.i(TAG, "didDetermineStateForRegion = " + i);
+                //Log.i(TAG, "didDetermineStateForRegion = " + i);
             }
         });
 
@@ -383,22 +381,24 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
         // Getting JSON Array node
         JSONArray objets = tofill.getJSONArray("objet");
 
-
         for (int i = 0; i < objets.length(); i++) {
             String objetToFill = objets.getString(i);
             //Log.e(TAG, objetToFill);
 
             HashMap<String, String> objectHM = new HashMap<>();
             objectHM.put("name", objetToFill);
+            objectHM.put("found", "Not found");
             objectList.add(objectHM);
         }
 
         ListAdapter adapter = new SimpleAdapter(
-                MainActivity.this, objectList, R.layout.object_list, new String[]{"name"}, new int[]{R.id.name});
+                MainActivity.this, objectList, R.layout.object_list, new String[]{"name", "found"}, new int[]{R.id.name, R.id.found});
 
         mList.setAdapter(adapter);
 
     }
+
+
 
 
 
