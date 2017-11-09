@@ -35,6 +35,9 @@
 
 * Modification du serveur Web :
 	* Post Image fonctionnel, le téléphone envoi l'image au serveur, le serveur l'envoi à Google et renvoi la réponse au téléphone.
+	* Shared preferences pour le nom.
+	* List View a faire.
+
 	
 ## Backend 
 
