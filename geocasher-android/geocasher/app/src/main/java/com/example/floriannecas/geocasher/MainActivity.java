@@ -382,7 +382,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
 
         // Getting JSON Array node
         JSONArray objets = tofill.getJSONArray("objet");
-        
+
 
         for (int i = 0; i < objets.length(); i++) {
             String objetToFill = objets.getString(i);
