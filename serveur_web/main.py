@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import json, random
-from flask import Flask, request
+from flask import Flask, request,g
 from flask_cors import CORS, cross_origin
 from db import Db
 import base64
@@ -15,35 +15,43 @@ CORS(app)
 
 ### TEMPORAIRE POUR TESTER ####
 
-status ='c'
+
 
 #0 : en attente
 #1 : image OK
 #2 : image NOK
 
-@app.route('/test',methods=['GET'])
-def test():
-    global status
-    print(status)
-    return ('%s') %  status
+#ROUTE POUR LIRE ETAT
+@app.route('/lireetat')
+def etat():
+    db = Db()
 
-@app.route('/test0')
-def test0():
-    global status
-    status = 'c'
-    return ('%s') % status
+    etats = db.select("SELECT * FROM inscrit;")
+    montableau =[]
 
-@app.route('/test1')
-def test1():
-    global status
-    status = 'a'
-    return ('%s') % status
+    db.close()
+    for etat in range(0,len(etats)):
+	montableau.append(etats[etat]['etat'])
+#       etat_j = etats[etat]['etat']
+#	if (etat_j != 'c') :
+#		id_joueur
+           
+#           return etat_j 
+    return json.dumps(montableau), 200, {'Content-Type': 'application/json'}
 
-@app.route('/test2')
-def test2():
-    global status
-    status = 'b'
-    return ('%s') % status
+
+#ROUTE POUR METTRE TOUT LES ETATS A C
+@app.route('/resetetat')
+def resetetat():
+    db = Db()
+    etats = db.select("SELECT * FROM inscrit;")
+
+    for etat in range(0,len(etats)):
+        db.execute('UPDATE inscrit Set etat =%s WHERE id_joueur = %s;',('c',etats[etat]['id_joueur']))
+    db.close()
+    return json.dumps("RESET OK"), 200, {'Content-Type': 'application/json'}
+
+
 
 ####################################
 
@@ -75,7 +83,7 @@ def ajout_inscrit():
     data = request.get_json()               #Récupération de l'objet Json.
     verif = db.select("SELECT * FROM inscrit where id_joueur = '%s';" % (data['id_joueur']))
 
-    response ={"objet":["chien","bouteille","ecran"]}
+    response ={"objet":["arm","dog","screen"]}
 
     #Si la taille de mon élement est vide alors cet intitulé n'est pas dans la base.
     if (len(verif) != 0):
@@ -85,7 +93,7 @@ def ajout_inscrit():
 
     else:
         print('Log - Création utilisateur dans la base')
-        db.execute("INSERT INTO inscrit(id_joueur) VALUES ('%s');"%(data['id_joueur']))
+        db.execute("INSERT INTO inscrit(id_joueur,etat) VALUES ('%s','%s');"%(data['id_joueur'],'c'))
         db.close()
         return json.dumps(response), 201, {'Content-Type': 'application/json'}
 
@@ -94,7 +102,8 @@ def ajout_inscrit():
 #Poster une image
 @app.route('/postimage', methods=['post'])
 def envoyerimagegoogle():
-
+    db = Db() 
+   
 
     # [START authenticate]
     credentials = service_account.Credentials.from_service_account_file('credentials.json')
@@ -102,6 +111,10 @@ def envoyerimagegoogle():
     # [END authenticate]
 
     data = request.get_json()
+
+
+
+   
     image_content = data['image']
 
     # [START construct_request]
@@ -120,7 +133,19 @@ def envoyerimagegoogle():
     label = response['responses'][0]['labelAnnotations'][0]['description']
 
     print(response)
+    print(label)
     response ={"response":"Photo analysee"}
+    var = 'c'
+    objets=["arm","dog","screen"]
+    for objet in range(0,len(objets)):
+        if objets[objet] == label :
+           db.execute('UPDATE inscrit Set etat =%s WHERE id_joueur = %s;',('a',data['name']))
+           var = 'a'
+           break
+    if var == 'c' :
+           db.execute('UPDATE inscrit Set etat =%s WHERE id_joueur = %s;',('b',data['name']))  
+
+    db.close()
  
     return json.dumps(response), 201, {'Content-Type': 'application/json'}
 
