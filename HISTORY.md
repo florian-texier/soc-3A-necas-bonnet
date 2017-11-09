@@ -46,6 +46,23 @@
 
 
 
+# 09/11
+* Modification du serveur Web :
+	* Route sur lireetats des joueurs
+	* Route pour reset etats des joueurs
+	
+* Modification base de donnee :
+	* Ajout column etat
+
+* Modification Raspberry Pi :
+	* Script qui recupere les états des équipes, fonctionne comme une queue, affiche si il y a un état à afficher et je reset les états des équipes
+	
+*Android :
+	* Envoi des coordonees GPS
+	* Reception liste mission json
+
+* Yeah, on a une demi demo pour demain. :)
+
 A GARDER : 
 Tuto activer beacon sur Raspberry => https://learn.adafruit.com/pibeacon-ibeacon-with-a-raspberry-pi?view=all
 Créer une application web Docker Python et PostgreSQL dans Azure => https://docs.microsoft.com/fr-fr/azure/app-service/containers/tutorial-docker-python-postgresql-app
