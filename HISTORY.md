@@ -47,14 +47,14 @@
 
 
 # 09/11
-* Modification du serveur Web :
+
 	* Route sur lireetats des joueurs
 	* Route pour reset etats des joueurs
 	
 * Modification base de donnee :
 	* Ajout column etat
 
-* Modification Raspberry Pi :
+
 	* Script qui recupere les états des équipes, fonctionne comme une queue, affiche si il y a un état à afficher et je reset les états des équipes
 	
 *Android :
@@ -63,6 +63,17 @@
 
 * Yeah, on a une demi demo pour demain. :)
 
+# 10/11
+* Modification du serveur Web :
+	* Beaucoup de modification sur le serveur + BDD (Correction variables,ajouts de commentaire, correction format json, nouvelles routes)
+	* Pb rencontré qui m'a pris plusieurs heures à trouver => Formatage JSON en cause, pas de soucis coté serveur mais le client n'affichait pas d'erreur 
+	(Mais ça avait quand même un impact...)
+* Modification Raspberry Pi :
+	* Modification des noms de variables et suppression des fameux mono caractere comme variable
+*Android :
+	* Appareil photo en cours + corrections divers
+* Docker : 
+	* On a commencé à paramètrer... à suivre
 A GARDER : 
 Tuto activer beacon sur Raspberry => https://learn.adafruit.com/pibeacon-ibeacon-with-a-raspberry-pi?view=all
 Créer une application web Docker Python et PostgreSQL dans Azure => https://docs.microsoft.com/fr-fr/azure/app-service/containers/tutorial-docker-python-postgresql-app
