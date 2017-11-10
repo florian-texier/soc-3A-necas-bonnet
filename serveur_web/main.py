@@ -16,35 +16,34 @@ CORS(app)
 ### TEMPORAIRE POUR TESTER ####
 
 
-
-#0 : en attente
-#1 : image OK
-#2 : image NOK
-
 #ROUTE POUR LIRE ETAT
-@app.route('/lireetat')
+@app.route('/lireetats')
 def etat():
     db = Db()
 
-    etats = db.select("SELECT * FROM inscrit;")
-    montableau =[]
+    etats = db.select("SELECT * FROM equipe;")
+  
 
     db.close()
-    for etat in range(0,len(etats)):
-	montableau.append(etats[etat]['etat'])
+    montableau =[]
 
-    mapetitereponse ={"objet":montableau}
+    for etat in range(0,len(etats)):
+	monjson = {'id':etats[etat]['e_name'],'etat':etats[etat]['e_etat']}
+	montableau.append(monjson)
+
+    mapetitereponse ={'objet':montableau}
+    print(json.dumps(mapetitereponse))
     return json.dumps(mapetitereponse), 200, {'Content-Type': 'application/json'}
 
 
 #ROUTE POUR METTRE TOUT LES ETATS A C
-@app.route('/resetetat')
+@app.route('/resetetats')
 def resetetat():
     db = Db()
-    etats = db.select("SELECT * FROM inscrit;")
+    etats = db.select("SELECT * FROM equipe;")
 
     for etat in range(0,len(etats)):
-        db.execute('UPDATE inscrit Set etat =%s WHERE id_joueur = %s;',('c',etats[etat]['id_joueur']))
+        db.execute('UPDATE equipe Set e_etat =%s WHERE e_name= %s;',('nothingtoshow',etats[etat]['e_name']))
     db.close()
     return json.dumps("RESET OK"), 200, {'Content-Type': 'application/json'}
 
@@ -67,7 +66,7 @@ def reset():
 @app.route('/inscrit', methods=['GET'])
 def get_users():
     db = Db()
-    informations = db.select('SELECT * FROM inscrit;')
+    informations = db.select('SELECT * FROM equipe;')
     db.close()
     return json.dumps(informations), 201, {'Content-Type': 'application/json'}
 
@@ -78,7 +77,7 @@ def get_users():
 def ajout_inscrit():
     db = Db()                               #Ouverture de la connection avec la base de donnée.
     data = request.get_json()               #Récupération de l'objet Json.
-    verif = db.select("SELECT * FROM inscrit where id_joueur = '%s';" % (data['id_joueur']))
+    verif = db.select("SELECT * FROM equipe where e_name = '%s';" % (data['id_joueur']))
 
     response ={"objet":["arm","dog","screen"]}
 
@@ -90,7 +89,7 @@ def ajout_inscrit():
 
     else:
         print('Log - Création utilisateur dans la base')
-        db.execute("INSERT INTO inscrit(id_joueur,etat) VALUES ('%s','%s');"%(data['id_joueur'],'c'))
+        db.execute("INSERT INTO equipe(e_name,e_etat) VALUES ('%s','%s');"%(data['id_joueur'],'nothingtoshow'))
         db.close()
         return json.dumps(response), 201, {'Content-Type': 'application/json'}
 
@@ -101,7 +100,6 @@ def ajout_inscrit():
 def envoyerimagegoogle():
     db = Db() 
    
-
     # [START authenticate]
     credentials = service_account.Credentials.from_service_account_file('credentials.json')
     service = googleapiclient.discovery.build('vision', 'v1', credentials=credentials)
@@ -109,9 +107,6 @@ def envoyerimagegoogle():
 
     data = request.get_json()
 
-
-
-   
     image_content = data['image']
 
     # [START construct_request]
@@ -132,15 +127,15 @@ def envoyerimagegoogle():
     print(response)
     print(label)
     response ={"response":"Photo analysee"}
-    var = 'c'
+    var = 0
     objets=["arm","dog","screen"]
     for objet in range(0,len(objets)):
         if objets[objet] == label :
-           db.execute('UPDATE inscrit Set etat =%s WHERE id_joueur = %s;',('a',data['name']))
-           var = 'a'
+           db.execute('UPDATE equipe Set e_etat =%s WHERE e_name = %s;',('imgsuccess',data['name']))
+           var = 1
            break
-    if var == 'c' :
-           db.execute('UPDATE inscrit Set etat =%s WHERE id_joueur = %s;',('b',data['name']))  
+    if var == 0 :
+           db.execute('UPDATE equipe Set e_etat =%s WHERE e_name = %s;',('imgfail',data['name']))  
 
     db.close()
  
