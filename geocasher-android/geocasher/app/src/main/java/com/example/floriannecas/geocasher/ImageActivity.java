@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -38,7 +37,6 @@ import static com.example.floriannecas.geocasher.MainActivity.MyPREFERENCES;
 public class ImageActivity extends AppCompatActivity {
     private ImageView imageView;
     private Button btnChoose, btnUpload;
-    private ProgressBar progressBar;
 
     public static String BASE_URL = "https://polar-bayou-90643.herokuapp.com/postimage";
     static final int PICK_IMAGE_REQUEST = 1;
@@ -69,6 +67,7 @@ public class ImageActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (filePath != null) {
                     imageUpload(filePath);
+                    btnUpload.setEnabled(false);
                     Toast.makeText(getApplicationContext(), "Sending ...", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Image not selected!", Toast.LENGTH_LONG).show();
@@ -125,6 +124,7 @@ public class ImageActivity extends AppCompatActivity {
         Bitmap scaled = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(imagePath), w, h, true);
         httpPostImage(getStringImage(scaled),lat, longi);
 
+        btnUpload.setEnabled(true);
     }
 
     public String getStringImage(Bitmap bmp){
@@ -134,7 +134,6 @@ public class ImageActivity extends AppCompatActivity {
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return encodedImage;
     }
-
 
     private String getPath(Uri contentUri) {
         String[] proj = { MediaStore.Images.Media.DATA };
@@ -188,7 +187,7 @@ public class ImageActivity extends AppCompatActivity {
 
         JSONObject postData = new JSONObject();
         try {
-            postData.put("name", restoredText);
+            postData.put("nom_equipe", restoredText);
             postData.put("lat", lat);
             postData.put("long", longi);
             postData.put("image", image64);
@@ -204,9 +203,11 @@ public class ImageActivity extends AppCompatActivity {
                     String res = response.getString("response");
                     Toast toast = Toast.makeText(ImageActivity.this, res, Toast.LENGTH_LONG);
                     toast.show();
+                    btnUpload.setEnabled(true);
                 } catch (Exception e) {
                     Toast toast = Toast.makeText(ImageActivity.this, "Erreur de lecture du JSON", Toast.LENGTH_LONG);
                     toast.show();
+                    btnUpload.setEnabled(true);
                 }
             }
         };

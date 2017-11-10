@@ -321,7 +321,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
 
         JSONObject postData = new JSONObject();
         try {
-            postData.put("id_joueur", user );
+            postData.put("nom_equipe", user );
         } catch (Exception e) {
             // do nothing
         }
