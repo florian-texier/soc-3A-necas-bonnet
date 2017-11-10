@@ -32,12 +32,9 @@ def etat():
     db.close()
     for etat in range(0,len(etats)):
 	montableau.append(etats[etat]['etat'])
-#       etat_j = etats[etat]['etat']
-#	if (etat_j != 'c') :
-#		id_joueur
-           
-#           return etat_j 
-    return json.dumps(montableau), 200, {'Content-Type': 'application/json'}
+
+    mapetitereponse ={"objet":montableau}
+    return json.dumps(mapetitereponse), 200, {'Content-Type': 'application/json'}
 
 
 #ROUTE POUR METTRE TOUT LES ETATS A C
