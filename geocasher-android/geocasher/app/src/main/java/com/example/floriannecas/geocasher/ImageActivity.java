@@ -69,6 +69,7 @@ public class ImageActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (filePath != null) {
                     imageUpload(filePath);
+                    Toast.makeText(getApplicationContext(), "Sending ...", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Image not selected!", Toast.LENGTH_LONG).show();
                 }

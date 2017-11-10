@@ -96,24 +96,14 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
         if (restoredText != null) {
             Log.e(TAG, restoredText);
             mNameEditor.setText(restoredText);
-            //mbtnSignIn.setEnabled(false);
-            //mNameEditor.setEnabled(false);
+            mbtnSignIn.setEnabled(false);
+            mNameEditor.setEnabled(false);
         }
 
         if (checkCameraPermissions()) {
             setupDetectorAndCamera();
         } else {
             // will be setup in "onRequestPermissionsResult"
-        }
-
-        if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            showAlertDialog("This app needs location access",
-                    "Please grant location access so this app can detect beacons.", new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_GPS);
-                        }
-                    });
         }
 
 
@@ -131,13 +121,6 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
             }
         });
 
-
-        /*button2.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                demoPostHttpRequest();
-            }
-        });*/
 
         mRequestQueue = Volley.newRequestQueue(this);
 
@@ -348,8 +331,8 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
             public void onResponse(JSONObject response) {
                 Log.i(TAG, "Success post");
                 Log.e(TAG, response.toString());
-                //mbtnSignIn.setEnabled(false);
-                //mNameEditor.setEnabled(false);
+                mbtnSignIn.setEnabled(false);
+                mNameEditor.setEnabled(false);
                 try {
                     fillListView(response);
                 } catch (JSONException e) {
@@ -400,14 +383,13 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
 
 
 
-
+    /************************* ???? *************************/
 
     public void startImageActivity() {
         Intent intent = new Intent(this, ImageActivity.class);
         startActivity(intent);
     }
 
-    /************************* ???? *************************/
     private void showAlertDialog(String title, String message, DialogInterface.OnDismissListener onDismissListener) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);
