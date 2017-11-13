@@ -50,7 +50,7 @@ Notre fabuleux GitHub pour le projet de parcours 3A.
 		
 		
 * Rasbperry-pi 
-	*Pré-requis :
+	* Pré-requis :
 		* Installer Python3
 		* Librairie à avoir : sense_hat,requests,time
 
