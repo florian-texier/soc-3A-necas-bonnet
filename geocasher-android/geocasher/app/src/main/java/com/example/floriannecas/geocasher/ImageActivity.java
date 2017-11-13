@@ -147,40 +147,6 @@ public class ImageActivity extends AppCompatActivity {
         return result;
     }
 
-    void demoGetHttpRequest() {
-
-        Response.Listener<JSONObject> onSuccess = new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                String message = "";
-                try {
-                    JSONArray ducks = response.getJSONArray("images");
-                    message = String.format("Il y a %d canards", ducks.length());
-
-                    if (ducks.length() > 0) {
-                        message += " et le 1er s'appelle " + ducks.getJSONObject(0).getString("name");
-                    }
-
-                } catch (Exception e) {
-                    message = "Erreur de lecture du JSON";
-                } finally {
-                    Log.e("Message Recu :", message);
-                }
-            }
-        };
-
-        Response.ErrorListener onError = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("Message Recu :","Erreur lors de la requête");
-            }
-        };
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, BASE_URL, null, onSuccess, onError);
-
-        mRequestQueue.add(request);
-    }
-
     void httpPostImage(final String image64, String lat, String longi) {
 
         SharedPreferences prefs = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
@@ -199,14 +165,12 @@ public class ImageActivity extends AppCompatActivity {
         Response.Listener<JSONObject> onSuccess = new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                String message = "";
                 try {
-                    String res = response.getString("response");
-                    Toast toast = Toast.makeText(ImageActivity.this, res, Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(ImageActivity.this, "Photo analysée ! Vérifiez votre liste !", Toast.LENGTH_LONG);
                     toast.show();
                     btnUpload.setEnabled(true);
                 } catch (Exception e) {
-                    Toast toast = Toast.makeText(ImageActivity.this, "Erreur de lecture du JSON", Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(ImageActivity.this, "Erreur de lecture de l'image", Toast.LENGTH_LONG);
                     toast.show();
                     btnUpload.setEnabled(true);
                 }
@@ -219,6 +183,7 @@ public class ImageActivity extends AppCompatActivity {
                 Toast toast = Toast.makeText(ImageActivity.this, "Erreur lors de l'envoi de l'image", Toast.LENGTH_LONG);
                 toast.show();
                 Log.e("Message Recu :","Erreur lors de la requête");
+                btnUpload.setEnabled(true);
             }
         };
 

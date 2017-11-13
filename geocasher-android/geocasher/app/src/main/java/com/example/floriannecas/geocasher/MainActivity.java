@@ -349,19 +349,21 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
         Response.Listener<JSONObject> onSuccess = new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.i(TAG, "Success post");
-                Log.e(TAG, response.toString());
+                Log.e(TAG, "Success post, response : " + response);
                 mbtnSignIn.setEnabled(false);
                 mNameEditor.setEnabled(false);
                 try {
+                    String res = response.getJSONArray("objet").getJSONObject(0).getString("e_id");
                     fillListView(response);
+                    SharedPreferences.Editor editor = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE).edit();
+                    editor.putString("name", user);
+                    editor.putString("id", res);
+                    editor.apply();
+                    Log.e(TAG, res);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                SharedPreferences.Editor editor = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE).edit();
-                editor.putString("name", user);
-                editor.apply();
 
             }
         };
@@ -378,7 +380,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
         Log.e(TAG, postData.toString());
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, endpointUrl, postData, onSuccess, onError);
 
-        request.setRetryPolicy(new DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        request.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mRequestQueue.add(request);
     }
 
@@ -386,14 +388,21 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
 
         // Getting JSON Array node
         JSONArray objets = tofill.getJSONArray("objet");
-
+        String statetoFill;
         for (int i = 0; i < objets.length(); i++) {
-            String objetToFill = objets.getString(i);
+            String nametoFill = objets.getJSONObject(i).getString("o_name");
+            String state = objets.getJSONObject(i).getString("o_found");
             //Log.e(TAG, objetToFill);
+            if (state.equals("false")){
+                statetoFill = "Not found";
+            }
+            else {
+                statetoFill = "Found !";
+            }
 
             HashMap<String, String> objectHM = new HashMap<>();
-            objectHM.put("name", objetToFill);
-            objectHM.put("found", "Not found");
+            objectHM.put("name", nametoFill);
+            objectHM.put("found", statetoFill);
             objectList.add(objectHM);
         }
 
@@ -402,6 +411,42 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
 
         mList.setAdapter(adapter);
 
+    }
+
+    JsonObjectRequest getObjectList() {
+
+        Response.Listener<JSONObject> onSuccess = new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                String message = "";
+                try {
+                    JSONArray ducks = response.getJSONArray("images");
+                    message = String.format("Il y a %d canards", ducks.length());
+
+                    if (ducks.length() > 0) {
+                        message += " et le 1er s'appelle " + ducks.getJSONObject(0).getString("name");
+                    }
+
+                } catch (Exception e) {
+                    message = "Erreur de lecture du JSON";
+                } finally {
+                    Log.e("Message Recu :", message);
+                }
+            }
+        };
+
+        Response.ErrorListener onError = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Message Recu :","Erreur lors de la requête");
+            }
+        };
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, BASE_URL, null, onSuccess, onError);
+
+        mRequestQueue.add(request);
+
+        return request;
     }
 
 
