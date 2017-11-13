@@ -74,6 +74,7 @@
 	* Appareil photo en cours + corrections divers
 * Docker : 
 	* On a commencé à paramètrer... à suivre
+	
 A GARDER : 
 Tuto activer beacon sur Raspberry => https://learn.adafruit.com/pibeacon-ibeacon-with-a-raspberry-pi?view=all
 Créer une application web Docker Python et PostgreSQL dans Azure => https://docs.microsoft.com/fr-fr/azure/app-service/containers/tutorial-docker-python-postgresql-app
