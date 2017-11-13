@@ -75,6 +75,15 @@
 * Docker : 
 	* On a commencé à paramètrer... à suivre
 	
+# 11/11 :
+* Modification du serveur Web :
+	* Serveur repassé en local  sur machine physique + BDD seulemet hebergé sur Heroku (difficulutés avec Post gres, si temps, on la repassera aussi en local)
+* Docker :
+	* Conteneur avec la route pour post l'image sur google vision OK
+* Android :
+	* Ajustement par rapport aux changements d'adresses
+	* Correction objets JSON
+
 A GARDER : 
 Tuto activer beacon sur Raspberry => https://learn.adafruit.com/pibeacon-ibeacon-with-a-raspberry-pi?view=all
 Créer une application web Docker Python et PostgreSQL dans Azure => https://docs.microsoft.com/fr-fr/azure/app-service/containers/tutorial-docker-python-postgresql-app
