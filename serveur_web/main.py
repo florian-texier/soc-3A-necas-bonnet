@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import json, random
+import time
+import requests
 from flask import Flask, request,g
 from flask_cors import CORS, cross_origin
 from db import Db
@@ -145,7 +147,7 @@ def ajout_inscrit():
 
 ####################################################################
 
-
+ 
 
 
 ######### ROUTE A FAIRE PASSER DANS LE DOCKER DES QUE POSSIBLE######
@@ -154,33 +156,12 @@ def ajout_inscrit():
 @app.route('/postimage', methods=['post'])
 def envoyerimagegoogle():
 
-    #Identification auprès de google pour utiliser Google API Vision
-    credentials = service_account.Credentials.from_service_account_file('credentials.json')
-    service = googleapiclient.discovery.build('vision', 'v1', credentials=credentials)
-
-
-    data = request.get_json()		#Recuperation de la requete du client android
-    print(data)
-    image_content = data['image']	#Je stock dans la variable l'image
+    datas = request.get_json()		#Recuperation de la requete du client android
+   
     
+    response = requests.post('http://172.30.0.147:5000/analyse', data = datas)
 
-    #Construction du JSON qui va être envoyer à Google Vision
-    service_request = service.images().annotate(body={
-        'requests': [{
-            'image': {
-                'content': image_content.decode('UTF-8')
-                },
-                'features': [{
-                    'type': 'LABEL_DETECTION',
-                    'maxResults': 1
-                }]
-            }]
-    })
 
-    # Envoi et récupération de la réponse de Google VIsion
-    response = service_request.execute()
-
-    # Stockage intitulé déterminé par google vision
     label = response['responses'][0]['labelAnnotations'][0]['description']
     print(label)                    #Pour les logs j'affiche ce qu'à déterminé GOOGLE VISION
 
@@ -219,6 +200,8 @@ def envoyerimagegoogle():
 
     db.close()				#Fermeture de la connection avec la BDD
     return json.dumps(response), 201, {'Content-Type': 'application/json'}
+
+
 
 
 if __name__ == "__main__":

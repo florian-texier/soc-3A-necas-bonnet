@@ -16,10 +16,19 @@ CREATE TABLE objet(
 	o_found  VARCHAR (25)   ,
 	o_coordx VARCHAR (25)  ,
 	o_coordy VARCHAR (25)  ,
-	o_image  VARCHAR (25)  ,
 	e_id     INT   ,
 	CONSTRAINT prk_constraint_objet PRIMARY KEY (o_id)
 );
+
+CREATE TABLE public.image(
+	i_id     SERIAL NOT NULL ,
+	i_base64 VARCHAR (2000)   ,
+	e_id     INT   ,
+	CONSTRAINT prk_constraint_image PRIMARY KEY (i_id)
+);
+
+ALTER TABLE public.image ADD CONSTRAINT FK_image_e_id FOREIGN KEY (e_id) REFERENCES public.equipe(e_id);
+
 
 ALTER TABLE objet ADD CONSTRAINT FK_objet_e_id FOREIGN KEY (e_id) REFERENCES equipe(e_id);
 
