@@ -7,7 +7,7 @@ class Db:
   def __init__(self):
     """Initiate a connection to the default postgres database."""
     urlparse.uses_netloc.append("postgres")
-    url = urlparse.urlparse(os.environ["DATABASE_URL"])
+    url = urlparse.urlparse('postgres://xeekhcpsafcghc:P5Ra5QZs5gL0CHH_CDk3vjsQzy@ec2-54-163-251-104.compute-1.amazonaws.com:5432/d1bogu57kaknqn')
 
     self.conn = psycopg2.connect(
         database=url.path[1:],

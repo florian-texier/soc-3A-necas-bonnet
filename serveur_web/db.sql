@@ -1,5 +1,7 @@
 DROP TABLE IF EXISTS objet CASCADE;
+DROP TABLE IF EXISTS image CASCADE;
 DROP TABLE IF EXISTS equipe CASCADE;
+
 
 
 CREATE TABLE equipe(
@@ -20,7 +22,7 @@ CREATE TABLE objet(
 	CONSTRAINT prk_constraint_objet PRIMARY KEY (o_id)
 );
 
-CREATE TABLE public.image(
+CREATE TABLE image(
 	i_id     SERIAL NOT NULL ,
 	i_base64 VARCHAR (2000)   ,
 	e_id     INT   ,

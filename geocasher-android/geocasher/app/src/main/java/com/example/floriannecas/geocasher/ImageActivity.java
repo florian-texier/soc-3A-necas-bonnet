@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -38,7 +39,7 @@ public class ImageActivity extends AppCompatActivity {
     private ImageView imageView;
     private Button btnChoose, btnUpload;
 
-    public static String BASE_URL = "https://polar-bayou-90643.herokuapp.com/postimage";
+    public static String BASE_URL = "http://172.30.0.147:5001/postimage";
     static final int PICK_IMAGE_REQUEST = 1;
     String filePath;
     RequestQueue mRequestQueue;
@@ -215,6 +216,8 @@ public class ImageActivity extends AppCompatActivity {
         Response.ErrorListener onError = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast toast = Toast.makeText(ImageActivity.this, "Erreur lors de l'envoi de l'image", Toast.LENGTH_LONG);
+                toast.show();
                 Log.e("Message Recu :","Erreur lors de la requête");
             }
         };
@@ -222,7 +225,7 @@ public class ImageActivity extends AppCompatActivity {
 
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, BASE_URL, postData, onSuccess, onError);
-
+        request.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         //Log.e("Test", postData.toString());
         mRequestQueue.add(request);
     }

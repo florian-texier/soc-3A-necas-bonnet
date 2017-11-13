@@ -49,13 +49,25 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/BeaconLabel"
+                android:id="@+id/BeaconInscDistance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="No Beacon detected"
+                android:text="Inscription beacon not in range"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/BeaconDepDistance" />
+
+            <TextView
+                android:id="@+id/BeaconDepDistance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Repo beacon not in range"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/QrCodeLabel" />
@@ -86,7 +98,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/BeaconLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/BeaconInscDistance" />
 
             <Button
                 android:id="@+id/btnSelectImage"

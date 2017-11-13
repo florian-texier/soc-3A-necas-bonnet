@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -17,7 +16,6 @@ import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -30,8 +28,10 @@ import org.json.JSONObject;
 
 import android.os.RemoteException;
 import android.support.v7.app.AlertDialog;
+import android.widget.Toast;
 
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -46,8 +46,8 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+
+import static java.lang.String.format;
 
 
 public class MainActivity extends AppCompatActivity implements BeaconConsumer{
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
     static final int REQUEST_PERMCAM = 1;
     public static final String MyPREFERENCES = "MyPrefs" ;
     int PERMISSION_ALL = 1;
-    String BASE_URL = "https://polar-bayou-90643.herokuapp.com/";
+    String BASE_URL = "http://172.30.0.147:5001/";
 
     static final String TAG = "Geocasher";
 
@@ -65,7 +65,8 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
 
     // View Components
     TextView mQrCodeLabel;
-    TextView mBeaconLabel;
+    TextView mBeaconInscLabel;
+    TextView mBeaconDepLabel;
     Button mbtnSelectImage;
     Button mbtnSignIn;
     EditText mNameEditor;
@@ -85,10 +86,12 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
 
         mList = (ListView) findViewById(R.id.listView);
         mQrCodeLabel = (TextView) findViewById(R.id.QrCodeLabel);
-        mBeaconLabel = (TextView) findViewById(R.id.BeaconLabel);
+        mBeaconInscLabel = (TextView) findViewById(R.id.BeaconInscDistance);
+        mBeaconDepLabel = (TextView) findViewById(R.id.BeaconDepDistance);
         mbtnSelectImage = (Button) findViewById(R.id.btnSelectImage);
         mbtnSignIn = (Button) findViewById(R.id.btnSignIn);
         mNameEditor = (EditText) findViewById(R.id.nameEditor);
+        mRequestQueue = Volley.newRequestQueue(this);
 
 
         SharedPreferences prefs = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
@@ -121,9 +124,6 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
             }
         });
 
-
-        mRequestQueue = Volley.newRequestQueue(this);
-
     }
 
     /************************* Screen interact *************************/
@@ -136,11 +136,20 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
         });
     }
 
-    void displayBeacon(final String message) {
+    void displayInscBeacon(final String message) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mBeaconLabel.setText(message);
+                mBeaconInscLabel.setText(message);
+            }
+        });
+    }
+
+    void displayRepBeacon(final String message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mBeaconDepLabel.setText(message);
             }
         });
     }
@@ -273,10 +282,20 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> collection, Region region) {
                 for(Beacon beacon : collection) {
-                    //displayBeacon(Double.toString(beacon.getDistance()));
-                    //Log.i(TAG, "Detected beacon : " + beacon.getId1());
-                    //Log.i(TAG, "Detected beacon @ distance " + beacon.getDistance());
-                    displayBeacon("Beacon distance : " + Double.toString(beacon.getDistance()));
+                    //Log.i(TAG, "Detected beacon : " + beacon.getId1().toString());
+                    //Log.i(TAG, "ID2 : " + beacon.getId2().toString());
+                    if (beacon.getId1().toString().equals("0xdeadbeef1ee7cafebabe")) {
+                        //Log.i(TAG, "ID passed : " + beacon.getId2().toString());
+                        if (beacon.getId2().toString().equals("0xc0ffee0ff1c3")){
+                            //Log.i(TAG, "Repo beacon");
+                            displayRepBeacon("Beacon Repo distance : " + format("%.2f", beacon.getDistance()) + " m");
+                        }
+                        else if (beacon.getId2().toString().equals("0xc0ffee0ff1ce")){
+                            //Log.i(TAG, "Depo beacon");
+                            displayInscBeacon("Beacon Insc distance : " + format("%.2f", beacon.getDistance())+ " m");
+                        }
+                    }
+
                     changeBtnImageState(true);
                 }
             }
@@ -326,6 +345,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
             // do nothing
         }
 
+
         Response.Listener<JSONObject> onSuccess = new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -350,12 +370,15 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.i(TAG, "Erreur inscription");
+                Toast toast = Toast.makeText(MainActivity.this, "Utilisateur déja inscrit", Toast.LENGTH_LONG);
+                toast.show();
             }
         };
 
         Log.e(TAG, postData.toString());
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, endpointUrl, postData, onSuccess, onError);
 
+        request.setRetryPolicy(new DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mRequestQueue.add(request);
     }
 
@@ -389,15 +412,5 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
         Intent intent = new Intent(this, ImageActivity.class);
         startActivity(intent);
     }
-
-    private void showAlertDialog(String title, String message, DialogInterface.OnDismissListener onDismissListener) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.setPositiveButton(android.R.string.ok, null);
-        if (onDismissListener != null) builder.setOnDismissListener(onDismissListener);
-        builder.show();
-    }
-
 }
 
