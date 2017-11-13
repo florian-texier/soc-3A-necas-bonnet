@@ -63,6 +63,18 @@ Notre fabuleux GitHub pour le projet de parcours 3A.
 		* Requête pour reset les états des équipes (Pour ne pas re-afficher plusieurs fois)
 		* Pour chaque état, si j'ai un succés ou un echec et j'affiche sur le sensor har
 		* Un sleep pour ne pas harceler de manière violente le serveur
+
+# Android
+
+* [Android Image Upload](https://github.com/akrajilwar/Android-Image-Upload/) 
+* Utilisation de cette partie en supprimant le multipart form et en faisant une requete JSON à la place.
+* Envoi de l'image en base 64
+
+* Utilisation du code de Pierre Grabolosa.
+
+# Docker 
+
+* Simple serveur Flask avec une route POST /analyse, qui renvoie le premier label détecté.
 	
 	
 	
