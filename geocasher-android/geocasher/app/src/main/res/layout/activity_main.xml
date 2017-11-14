@@ -37,6 +37,7 @@
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:singleLine="false"
+                    android:enabled="false"
                     android:text="Name" />
 
                 <Button
@@ -44,6 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:enabled="false"
                     android:text="SignIn" />
 
             </LinearLayout>
@@ -109,7 +111,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
-                android:enabled="true"
+                android:enabled="false"
                 android:text="Send image"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

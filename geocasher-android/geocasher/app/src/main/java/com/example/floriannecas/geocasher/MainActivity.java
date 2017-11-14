@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
         mNameEditor = (EditText) findViewById(R.id.nameEditor);
         mRequestQueue = Volley.newRequestQueue(this);
 
-
         SharedPreferences prefs = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
         String restoredText = prefs.getString("name", null);
         if (restoredText != null) {
@@ -162,6 +161,24 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
             }
         });
     }
+    void changeBtnSignIn(final boolean state) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mbtnSignIn.setEnabled(state);
+            }
+        });
+    }
+
+    void changeNameEdit(final boolean state) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mNameEditor.setEnabled(state);
+            }
+        });
+    }
+
 
     /************************* Activity & Permissions *************************/
 
@@ -259,12 +276,19 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
     @Override
     protected void onResume() {
         super.onResume();
+        mbtnSelectImage.setEnabled(false);
 
         beaconManager = BeaconManager.getInstanceForApplication(this);
 
         beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_UID_LAYOUT));
 
         beaconManager.bind(this);
+
+        SharedPreferences prefs = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
+        String restoredText = prefs.getString("name", null);
+        if (restoredText != null) {
+            getObjectList();
+        }
     }
 
     @Override
@@ -281,22 +305,35 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
 
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> collection, Region region) {
+                SharedPreferences prefs = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
                 for(Beacon beacon : collection) {
                     //Log.i(TAG, "Detected beacon : " + beacon.getId1().toString());
                     //Log.i(TAG, "ID2 : " + beacon.getId2().toString());
                     if (beacon.getId1().toString().equals("0xdeadbeef1ee7cafebabe")) {
                         //Log.i(TAG, "ID passed : " + beacon.getId2().toString());
                         if (beacon.getId2().toString().equals("0xc0ffee0ff1c3")){
+
                             //Log.i(TAG, "Repo beacon");
                             displayRepBeacon("Beacon Repo distance : " + format("%.2f", beacon.getDistance()) + " m");
+
+                            String restoredText = prefs.getString("name", null);
+                            if(beacon.getDistance() < 2 && restoredText != null){
+                                changeBtnImageState(true);
+                            }
+                            else if(beacon.getDistance() > 2 && restoredText != null){
+                                changeBtnImageState(false);
+                            }
                         }
                         else if (beacon.getId2().toString().equals("0xc0ffee0ff1ce")){
                             //Log.i(TAG, "Depo beacon");
+                            String restoredText = prefs.getString("name", null);
+                            if(beacon.getDistance() < 1 && restoredText == null) {
+                                changeBtnSignIn(true);
+                                changeNameEdit(true);
+                            }
                             displayInscBeacon("Beacon Insc distance : " + format("%.2f", beacon.getDistance())+ " m");
                         }
                     }
-
-                    changeBtnImageState(true);
                 }
             }
         });
@@ -354,7 +391,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
                 mNameEditor.setEnabled(false);
                 try {
                     String res = response.getJSONArray("objet").getJSONObject(0).getString("e_id");
-                    fillListView(response);
+                    fillListView(response.getJSONArray("objet"));
                     SharedPreferences.Editor editor = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE).edit();
                     editor.putString("name", user);
                     editor.putString("id", res);
@@ -384,10 +421,11 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
         mRequestQueue.add(request);
     }
 
-    public void fillListView(JSONObject tofill) throws JSONException {
+    public void fillListView(JSONArray objets) throws JSONException {
 
+        objectList.clear();
+        mList.setAdapter(null);
         // Getting JSON Array node
-        JSONArray objets = tofill.getJSONArray("objet");
         String statetoFill;
         for (int i = 0; i < objets.length(); i++) {
             String nametoFill = objets.getJSONObject(i).getString("o_name");
@@ -406,6 +444,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
             objectList.add(objectHM);
         }
 
+
         ListAdapter adapter = new SimpleAdapter(
                 MainActivity.this, objectList, R.layout.object_list, new String[]{"name", "found"}, new int[]{R.id.name, R.id.found});
 
@@ -413,43 +452,34 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
 
     }
 
-    JsonObjectRequest getObjectList() {
+    void getObjectList() {
+
+        SharedPreferences prefs = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
+        String restoredText = prefs.getString("id", null);
+
+        final String endpointUrl = BASE_URL + "objets/" + restoredText;
+
 
         Response.Listener<JSONObject> onSuccess = new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                String message = "";
                 try {
-                    JSONArray ducks = response.getJSONArray("images");
-                    message = String.format("Il y a %d canards", ducks.length());
+                    fillListView(response.getJSONArray("liste_objets"));
 
-                    if (ducks.length() > 0) {
-                        message += " et le 1er s'appelle " + ducks.getJSONObject(0).getString("name");
-                    }
-
-                } catch (Exception e) {
-                    message = "Erreur de lecture du JSON";
-                } finally {
-                    Log.e("Message Recu :", message);
-                }
+                } catch (Exception e) {}
             }
         };
 
         Response.ErrorListener onError = new Response.ErrorListener() {
-            @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("Message Recu :","Erreur lors de la requête");
             }
         };
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, BASE_URL, null, onSuccess, onError);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, endpointUrl, null, onSuccess, onError);
 
         mRequestQueue.add(request);
-
-        return request;
     }
-
-
 
     /************************* ???? *************************/
 

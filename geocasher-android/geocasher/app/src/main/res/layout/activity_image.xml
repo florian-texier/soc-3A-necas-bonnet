@@ -4,10 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.floriannecas.geocasher.ImageActivity"><![CDATA[
-    android:orientation="vertical">
-
-    ]]>
+    tools:context="com.example.floriannecas.geocasher.ImageActivity">
 
     <Button
         android:id="@+id/button_choose"
@@ -18,10 +15,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="#333"
         android:padding="10dp"
         android:text="Browse Image"
-        android:textColor="#fff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -51,9 +46,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="108dp"
         android:layout_marginStart="8dp"
-        android:background="#333"
         android:text="upload"
-        android:textColor="#fff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
