@@ -122,6 +122,13 @@ def get_images_equipe(id):
 
 
 
+@app.route('/newcontainer', methods=['post'])
+def ajout_container():
+    data = request.get_json()
+    print(data)
+     #Fermeture de la connection avec la BDD
+    return '200', 200, {'Content-Type': 'application/json'}
+
 ############ INSCRIPTION ET AFFECTATION DE MISSION #################
 @app.route('/inscription', methods=['post'])
 def ajout_inscrit():
@@ -131,7 +138,6 @@ def ajout_inscrit():
 
     #Je recherche dans la base si une équipe a déjà ce nom
     resultat_recherche_equipe = db.select("SELECT * FROM equipe where e_name = '%s';" % (data['nom_equipe']))
-
 
     #Si la taille de mon élement est vide alors cet intitulé n'est pas dans la base
     if (len(resultat_recherche_equipe) != 0):
@@ -170,14 +176,13 @@ def envoyerimagegoogle():
 
     toSend = json.dumps({'image':datas['image']})
     headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-    response = requests.post('http://127.0.0.1:5001/analyse', data=toSend, headers=headers)
+    response = requests.post('http://172.18.0.2:5000/analyse', data=toSend, headers=headers)
     dataVision = response.json()
 
 
     label = dataVision['label']
     print(label)
     imageIN = datas['image']
-    print(imageIN)
     #Pour les logs j'affiche ce qu'à déterminé GOOGLE VISION
 
     db = Db()                       # Ouverture de la connection avec la BDD
@@ -185,7 +190,6 @@ def envoyerimagegoogle():
 
     resultat_recherche_equipe = db.select("SELECT * FROM equipe where e_name = '%s';" % (datas['nom_equipe']))
     resultat_recherche_equipe = resultat_recherche_equipe[0]['e_id']
-    print(resultat_recherche_equipe)
 
 
     try:

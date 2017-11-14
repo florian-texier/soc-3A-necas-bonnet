@@ -91,12 +91,19 @@
 		* Afficher les noms des équipes
 		* Afficher les photos PAR équipes
 * Serveur web :
-	* Modification BDD pour les images
+	* Modification BDD pour les images et l'ip pour l'équipe
 	* Ajustement code pour stockage et envoi base64
 	* Routes /images et /images/numeroequipe crées
+	* Routes /newContainer qui reçoit l'ip des nouveaux containers
 
 * Android :
 	* Finaliation des modules d'inscription et post images
+
+* Swarm
+	* On a enfin un swarm ! Basé sur l'image du serveur buildé
+	* Ajout de son docker compose
+
+
 
 A GARDER : 
 Tuto activer beacon sur Raspberry => https://learn.adafruit.com/pibeacon-ibeacon-with-a-raspberry-pi?view=all

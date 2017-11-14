@@ -8,6 +8,7 @@ CREATE TABLE equipe(
 	e_id   SERIAL NOT NULL ,
 	e_name VARCHAR (25)  ,
 	e_etat VARCHAR (25)  ,
+	e_ip   VARCHAR (25)  ,
 	CONSTRAINT prk_constraint_equipe PRIMARY KEY (e_id)
 );
 

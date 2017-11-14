@@ -317,17 +317,17 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
                             displayRepBeacon("Beacon Repo distance : " + format("%.2f", beacon.getDistance()) + " m");
 
                             String restoredText = prefs.getString("name", null);
-                            if(beacon.getDistance() < 2 && restoredText != null){
+                            if(beacon.getDistance() < 4 && restoredText != null){
                                 changeBtnImageState(true);
                             }
-                            else if(beacon.getDistance() > 2 && restoredText != null){
+                            else if(beacon.getDistance() > 4 && restoredText != null){
                                 changeBtnImageState(false);
                             }
                         }
                         else if (beacon.getId2().toString().equals("0xc0ffee0ff1ce")){
                             //Log.i(TAG, "Depo beacon");
                             String restoredText = prefs.getString("name", null);
-                            if(beacon.getDistance() < 1 && restoredText == null) {
+                            if(beacon.getDistance() < 4 && restoredText == null) {
                                 changeBtnSignIn(true);
                                 changeNameEdit(true);
                             }
@@ -417,7 +417,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
         Log.e(TAG, postData.toString());
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, endpointUrl, postData, onSuccess, onError);
 
-        request.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        request.setRetryPolicy(new DefaultRetryPolicy(15000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mRequestQueue.add(request);
     }
 
