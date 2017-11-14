@@ -58,7 +58,7 @@ Notre fabuleux GitHub pour le projet de parcours 3A.
 			* Fonction : Afficher toutes les photos d'UNE SEULE Equipe
 			* Response : {"e_id": 2, "i_coordy": "2/1,50/1,58/1", "i_coordx": "42/1,40/1,32/1", "i_id": 1, {"i_base64": DONNEES}
 		
-* Rasbperry-pi 
+# Rasbperry-pi 
 	* Pré-requis :
 		* Installer Python3
 		* Librairie à avoir : sense_hat,requests,time
