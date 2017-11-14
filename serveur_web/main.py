@@ -55,8 +55,6 @@ def resetetat():
 
 
 
-
-
 ############ ROUTES POUR RESET/VISUALISER LA BASE ##################
 
 #RESET LA BASE
@@ -104,7 +102,23 @@ def get_objets_equipe(id):
 ####################################################################
 
 
+@app.route('/images',methods=['GET'])
+def shownbequipes():
+    print('open db')
+    db = Db()  # Ouverture connexion vers BDD
+    informations = db.select('SELECT * FROM image;')  # Je récupère les informations de ma table équipe
+    db.close()
+    print('return')
+    return json.dumps(informations), 201, {'Content-Type': 'application/json'}
 
+@app.route('/images/<int:id>', methods=['GET'])
+def get_images_equipe(id):
+    db = Db()						#Ouverture connexion vers BDD
+    informations = db.select("SELECT * FROM image WHERE e_id = '%s';" % (id))	#Je récupère les informations de ma table objet
+    db.close()						#Fermeture connexion vers BDD
+    response ={'liste_images':informations}
+    #Je retourne les informations de ma table équipe
+    return json.dumps(response), 201, {'Content-Type': 'application/json'}
 
 
 
@@ -134,9 +148,9 @@ def ajout_inscrit():
 
 
         #J'ajoute dans la base des objets à trouver pour l'équipe crée
-        db.execute("INSERT INTO objet(o_name, o_found, o_coordx, o_coordy, e_id) VALUES ('%s','%s','%s','%s','%s');"%('arm', 'false', '0', '0', resultat_recherche_equipe[0]['e_id']))
-        db.execute("INSERT INTO objet(o_name, o_found, o_coordx, o_coordy, e_id) VALUES ('%s','%s','%s','%s','%s');"%('dog', 'false', '0', '0', resultat_recherche_equipe[0]['e_id']))
-        db.execute("INSERT INTO objet(o_name, o_found, o_coordx, o_coordy, e_id) VALUES ('%s','%s','%s','%s','%s');"%('screen', 'false', '0', '0',resultat_recherche_equipe[0]['e_id']))
+        db.execute("INSERT INTO objet(o_name, o_found, e_id) VALUES ('%s','%s','%s');"%('arm', 'false', resultat_recherche_equipe[0]['e_id']))
+        db.execute("INSERT INTO objet(o_name, o_found, e_id) VALUES ('%s','%s','%s');"%('dog', 'false', resultat_recherche_equipe[0]['e_id']))
+        db.execute("INSERT INTO objet(o_name, o_found, e_id) VALUES ('%s','%s','%s');"%('screen', 'false',resultat_recherche_equipe[0]['e_id']))
 
         #Je recupère les objets à trouver pour les équipes et je renvois ça au client android
         req = db.select("SELECT * FROM objet where e_id = '%s';" % (resultat_recherche_equipe[0]['e_id']))
@@ -161,13 +175,23 @@ def envoyerimagegoogle():
 
 
     label = dataVision['label']
-    print(label)                    #Pour les logs j'affiche ce qu'à déterminé GOOGLE VISION
+    print(label)
+    imageIN = datas['image']
+    print(imageIN)
+    #Pour les logs j'affiche ce qu'à déterminé GOOGLE VISION
 
     db = Db()                       # Ouverture de la connection avec la BDD
 
 
     resultat_recherche_equipe = db.select("SELECT * FROM equipe where e_name = '%s';" % (datas['nom_equipe']))
-    resultat_recherche_equipe =resultat_recherche_equipe[0]['e_id']
+    resultat_recherche_equipe = resultat_recherche_equipe[0]['e_id']
+    print(resultat_recherche_equipe)
+
+
+    try:
+        db.execute("INSERT INTO image(i_coordx, i_coordy, i_base64, e_id) VALUES ('%s','%s','%s','%s');"%(datas['lat'], datas['long'], datas['image'],resultat_recherche_equipe))
+    except:
+        db.execute("INSERT INTO image(i_base64, e_id) VALUES ('%s','%s');" % (imageIN, resultat_recherche_equipe))
 
     #Je recupère les objets à trouver pour les équipes et je renvois ça au client android
     objetsdelequipe = db.select("SELECT * FROM objet where e_id = '%s';" % (resultat_recherche_equipe))
