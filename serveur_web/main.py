@@ -113,7 +113,7 @@ def get_objets_equipe(id):
 def ajout_inscrit():
     db = Db()                       #Ouverture de la connection avec la BDD
     data = request.get_json()       #Récupération de la requète
-
+    print data
 
     #Je recherche dans la base si une équipe a déjà ce nom
     resultat_recherche_equipe = db.select("SELECT * FROM equipe where e_name = '%s';" % (data['nom_equipe']))
@@ -141,7 +141,7 @@ def ajout_inscrit():
         #Je recupère les objets à trouver pour les équipes et je renvois ça au client android
         req = db.select("SELECT * FROM objet where e_id = '%s';" % (resultat_recherche_equipe[0]['e_id']))
         #print(response)
-	response ={"objet":req}
+        response = {"objet":req}
         db.close() 			 #Fermeture de la connection avec la BDD
         return json.dumps(response), 200, {'Content-Type': 'application/json'}
 
@@ -157,18 +157,20 @@ def ajout_inscrit():
 def envoyerimagegoogle():
 
     datas = request.get_json()		#Recuperation de la requete du client android
-   
-    
-    response = requests.post('http://172.30.0.147:5000/analyse', data = datas)
+
+    toSend = json.dumps({'image':datas['image']})
+    headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+    response = requests.post('http://127.0.0.1:5000/analyse', data=toSend, headers=headers)
+    dataVision = response.json()
 
 
-    label = response['responses'][0]['labelAnnotations'][0]['description']
+    label = dataVision['label']
     print(label)                    #Pour les logs j'affiche ce qu'à déterminé GOOGLE VISION
 
     db = Db()                       # Ouverture de la connection avec la BDD
 
 
-    resultat_recherche_equipe = db.select("SELECT * FROM equipe where e_name = '%s';" % (data['nom_equipe']))
+    resultat_recherche_equipe = db.select("SELECT * FROM equipe where e_name = '%s';" % (datas['nom_equipe']))
     resultat_recherche_equipe =resultat_recherche_equipe[0]['e_id']
 
     #Je recupère les objets à trouver pour les équipes et je renvois ça au client android
@@ -184,9 +186,9 @@ def envoyerimagegoogle():
         if objetsdelequipe[i]['o_name'] == label :
            if objetsdelequipe[i]['o_found']=='false':
       
-                db.execute('UPDATE equipe Set e_etat =%s WHERE e_name = %s;',('imgsuccess',data['nom_equipe']))
+                db.execute('UPDATE equipe Set e_etat =%s WHERE e_name = %s;',('imgsuccess',datas['nom_equipe']))
                 #RAJOUTER L'UPDATE DE X Y Z ETC
-                db.execute('UPDATE objet Set o_found =%s WHERE e_id = %s;',('true',resultat_recherche_equipe))
+                db.execute('UPDATE objet Set o_found =%s WHERE e_id = %s AND o_name=%s;',('true',resultat_recherche_equipe,label))
                 var_sortie = 1
 		response ={"response":"Photo analysee"}
            else :		
@@ -195,7 +197,7 @@ def envoyerimagegoogle():
 
     #SI l'objet ne correspond pas à un objet de ma liste
     if var_sortie == 0 :
-        db.execute('UPDATE equipe Set e_etat =%s WHERE e_name = %s;',('imgfail',data['nom_equipe']))
+        db.execute('UPDATE equipe Set e_etat =%s WHERE e_name = %s;',('imgfail',datas['nom_equipe']))
         response ={"response":"Photo analysee"}
 
     db.close()				#Fermeture de la connection avec la BDD
@@ -205,4 +207,4 @@ def envoyerimagegoogle():
 
 
 if __name__ == "__main__":
-  app.run()
+  app.run(host="0.0.0.0", port=5001)
