@@ -86,8 +86,17 @@
 	
 #14/11 :
 * Superviseur
-	* Script JavaScript :
-		* Nombre d'équipes
+	* Script JavaScript + HTML à nu :
+		* Affichage Nombre d'équipes
+		* Afficher les noms des équipes
+		* Afficher les photos PAR équipes
+* Serveur web :
+	* Modification BDD pour les images
+	* Ajustement code pour stockage et envoi base64
+	* Routes /images et /images/numeroequipe crées
+
+* Android :
+	* Finaliation des modules d'inscription et post images
 
 A GARDER : 
 Tuto activer beacon sur Raspberry => https://learn.adafruit.com/pibeacon-ibeacon-with-a-raspberry-pi?view=all
