@@ -3,13 +3,14 @@ import requests
 import time
 from flask import Flask
 
+adresseserveur="http://172.30.0.147:5000"
 sense = SenseHat()
 while  (1) :
 	#Je fais une requête pour récupérer tous les états des équipes 
-	etats = requests.get('http://polar-bayou-90643.herokuapp.com/lireetats')
+	etats = requests.get(adresseserveur+'/lireetats')
 
 	#Je fais une requête pour reset les états des équipes (Pour ne pas re-afficher)
-	r = requests.get('http://polar-bayou-90643.herokuapp.com/resetetats')
+	r = requests.get(adresseserveur+'/resetetats')
 
 	#Je stocke la reponse et la json dumps
 	temporaire=etats.json()
@@ -24,11 +25,11 @@ while  (1) :
 			sense.show_message(":)",text_colour=(0, 255, 0))
 
 		if (etats[i]['etat'] =='imgfail') :
-			sense.show_message('%s'%(etats[i]['id']), text_colour=(0,0,255))
-			sense.show_message(":(",text_colour=(0, 0, 255))
+			sense.show_message('%s'%(etats[i]['id']), text_colour=(255,0,0))
+			sense.show_message(":(",text_colour=(255, 0, 0))
 		print(etats[i])
 	print(' ')
 
 	#Je fais un sleep pour ne pas harceler de manière violente le serveur
-	time.sleep(10)
+	time.sleep(5)
 
