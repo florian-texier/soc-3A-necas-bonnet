@@ -113,7 +113,7 @@ def get_objets_equipe(id):
 def ajout_inscrit():
     db = Db()                       #Ouverture de la connection avec la BDD
     data = request.get_json()       #Récupération de la requète
-    print data
+    print(data)
 
     #Je recherche dans la base si une équipe a déjà ce nom
     resultat_recherche_equipe = db.select("SELECT * FROM equipe where e_name = '%s';" % (data['nom_equipe']))
@@ -147,10 +147,6 @@ def ajout_inscrit():
 
 ####################################################################
 
- 
-
-
-######### ROUTE A FAIRE PASSER DANS LE DOCKER DES QUE POSSIBLE######
 
 #Poster une image
 @app.route('/postimage', methods=['post'])
@@ -160,7 +156,7 @@ def envoyerimagegoogle():
 
     toSend = json.dumps({'image':datas['image']})
     headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-    response = requests.post('http://127.0.0.1:5000/analyse', data=toSend, headers=headers)
+    response = requests.post('http://127.0.0.1:5001/analyse', data=toSend, headers=headers)
     dataVision = response.json()
 
 
@@ -207,4 +203,4 @@ def envoyerimagegoogle():
 
 
 if __name__ == "__main__":
-  app.run(host="0.0.0.0", port=5001)
+  app.run(host="0.0.0.0", port=5000)

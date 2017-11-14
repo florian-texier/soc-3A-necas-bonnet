@@ -39,7 +39,7 @@ public class ImageActivity extends AppCompatActivity {
     private ImageView imageView;
     private Button btnChoose, btnUpload;
 
-    public static String BASE_URL = "http://172.30.0.147:5001/postimage";
+    public static String BASE_URL = "http://172.30.0.147:5000/postimage";
     static final int PICK_IMAGE_REQUEST = 1;
     String filePath;
     RequestQueue mRequestQueue;

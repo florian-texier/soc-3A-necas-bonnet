@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
     static final int REQUEST_PERMCAM = 1;
     public static final String MyPREFERENCES = "MyPrefs" ;
     int PERMISSION_ALL = 1;
-    String BASE_URL = "http://172.30.0.147:5001/";
+    String BASE_URL = "http://172.30.0.147:5000/";
 
     static final String TAG = "Geocasher";
 
