@@ -12,6 +12,7 @@ Notre fabuleux GitHub pour le projet de parcours 3A.
 	* Android 	(A FAIRE)
 	* Docker 	(A FAIRE)
 	* Front 	(A FAIRE)
+	* Trucs compliqués 
 
 
 # Serveur-web sur Heroku 
@@ -48,7 +49,14 @@ Notre fabuleux GitHub pour le projet de parcours 3A.
 		* /inscription (POST)
 			* Fonction : Ajout d'une équipe dans la base + création de ses objets
 			* Reponse : {"liste_objets": [{"o_name": "arm", "o_coordx": "0", "o_coordy": "0", "o_id": 1, "e_id": 1, "o_image": null, "o_found": "false"}]}
-		
+			
+		* /images (GET)
+			* Fonction : Afficher toutes les photos de toutes les équipes
+			* Response : {"e_id": 2, "i_coordy": "2/1,50/1,58/1", "i_coordx": "42/1,40/1,32/1", "i_id": 1, {"i_base64": DONNEES}
+			
+		* /images/<id:equipe> (GET)
+			* Fonction : Afficher toutes les photos d'UNE SEULE Equipe
+			* Response : {"e_id": 2, "i_coordy": "2/1,50/1,58/1", "i_coordx": "42/1,40/1,32/1", "i_id": 1, {"i_base64": DONNEES}
 		
 * Rasbperry-pi 
 	* Pré-requis :
@@ -76,6 +84,10 @@ Notre fabuleux GitHub pour le projet de parcours 3A.
 # Docker 
 
 * Simple serveur Flask avec une route POST /analyse, qui renvoie le premier label détecté.
+
+
+# Trucs compliqués 
+* Affichier l'image en base64 en JS :  $("<img>", {"src": "data:image/png;base64," + lapetiteimage,"width": "250px", "height": "250px"}).appendTo("#photo_equipe");
 	
 	
 	
