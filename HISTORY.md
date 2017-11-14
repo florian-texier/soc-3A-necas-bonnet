@@ -75,7 +75,7 @@
 * Docker : 
 	* On a commencé à paramètrer... à suivre
 	
-# 11/11 :
+# 13/11 :
 * Modification du serveur Web :
 	* Serveur repassé en local  sur machine physique + BDD seulemet hebergé sur Heroku (difficulutés avec Post gres, si temps, on la repassera aussi en local)
 * Docker :
@@ -83,6 +83,11 @@
 * Android :
 	* Ajustement par rapport aux changements d'adresses
 	* Correction objets JSON
+	
+#14/11 :
+* Superviseur
+	* Script JavaScript :
+		* Nombre d'équipes
 
 A GARDER : 
 Tuto activer beacon sur Raspberry => https://learn.adafruit.com/pibeacon-ibeacon-with-a-raspberry-pi?view=all

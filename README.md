@@ -11,6 +11,7 @@ Notre fabuleux GitHub pour le projet de parcours 3A.
 	* Rasbperry-pi
 	* Android 	(A FAIRE)
 	* Docker 	(A FAIRE)
+	* Front 	(A FAIRE)
 
 
 # Serveur-web sur Heroku 
