@@ -10,7 +10,7 @@
     <title>Dashboard for ScavengerHunt</title>
 </head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
-<script src="script.js"></script>
+
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.css"rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -47,6 +47,17 @@
             <div class="column">
                 <nav class="panel">
                     <p class="panel-heading">
+                        High score
+                    </p>
+
+                    <div class="panel-block">
+                        <h4 class="title is-4" id="boxnumber2">0</h4>
+                    </div>
+                </nav>
+            </div>
+            <div class="column">
+                <nav class="panel">
+                    <p class="panel-heading">
                         Nombre d'équipes
                     </p>
 
@@ -55,24 +66,6 @@
                     </div>
                 </nav>
             </div>
-            <div class="column">
-                <nav class="panel">
-                    <p class="panel-heading">
-                        Cortisone
-                    </p>
-
-                    <div class="panel-block">
-                        <h4 class="title is-4" id="boxnumber3">0</h4>
-                    </div>
-
-                    <!--<div class="panel-block">
-                        <button class="button is-primary is-outlined is-fullwidth" disabled>
-                            Next box
-                        </button>
-                    </div>-->
-                </nav>
-            </div>
-
         </div>
 
         <div class="tile is-ancestor">
@@ -85,6 +78,7 @@
                     <p class="title is-5">Objets trouvés</p>
                     <ul id="items_found" class="nav nav-pills flex-column"></ul>
             </div>
+
             </div>
             <div class="tile is-parent">
                 <div class="tile is-child box">
@@ -96,4 +90,5 @@
 
     </div>
 </section>
+<script src="script.js"></script>
 </body>
