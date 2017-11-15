@@ -16,7 +16,8 @@ CREATE TABLE equipe(
 CREATE TABLE objet(
 	o_id     SERIAL NOT NULL ,
 	o_name   VARCHAR (25)  ,
-	o_found  VARCHAR (25)   ,
+	o_found  VARCHAR (25)  ,
+	o_points INT   ,
 	e_id     INT   ,
 	CONSTRAINT prk_constraint_objet PRIMARY KEY (o_id)
 );
@@ -38,6 +39,6 @@ ALTER TABLE objet ADD CONSTRAINT FK_objet_e_id FOREIGN KEY (e_id) REFERENCES equ
 
 INSERT INTO equipe (e_name, e_etat, e_ip) VALUES ('Flo', 'nothingtoshow', 'http://172.18.0.2:5000');
 
-INSERT INTO objet (o_name, o_found, e_id) VALUES ('arm', 'false', '1');
-INSERT INTO objet (o_name, o_found, e_id) VALUES ('dog', 'false','1');
-INSERT INTO objet (o_name, o_found, e_id) VALUES ('screen', 'false','1');
+INSERT INTO objet (o_name, o_found, o_points, e_id) VALUES ('arm', 'false',0, '1');
+INSERT INTO objet (o_name, o_found, o_points, e_id) VALUES ('dog', 'false',0,'1');
+INSERT INTO objet (o_name, o_found, o_points, e_id) VALUES ('screen', 'false',0,'1');

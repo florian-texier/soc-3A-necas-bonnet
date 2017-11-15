@@ -17,6 +17,7 @@ CREATE TABLE objet(
 	o_id     SERIAL NOT NULL ,
 	o_name   VARCHAR (25)  ,
 	o_found  VARCHAR (25)   ,
+	o_points INT   ,
 	e_id     INT   ,
 	CONSTRAINT prk_constraint_objet PRIMARY KEY (o_id)
 );

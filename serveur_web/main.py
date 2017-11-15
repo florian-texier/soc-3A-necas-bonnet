@@ -132,6 +132,32 @@ def ajout_container():
     db.close()
     return '200', 200, {'Content-Type': 'application/json'}
 
+@app.route('/objup/<int:id>', methods=['get'])
+def incrobjpoints(id):
+    data = request.get_json()
+    db = Db()
+    points = db.select("SELECT o_points FROM objet where o_id = '%s';" % (id))
+    point = points[0]['o_points']
+    point += 1
+    db.execute("UPDATE objet SET o_points =%s WHERE o_id =%s;" % (point, id))
+    db.close()
+    return '200', 200, {'Content-Type': 'application/json'}
+
+@app.route('/objdown/<int:id>', methods=['get'])
+def decrobjpoints(id):
+    data = request.get_json()
+    print(data)
+    db = Db()
+    points = db.select("SELECT o_points FROM objet where o_id = '%s';" % (id))
+    point = points[0]['o_points']
+    point -= 1
+    if (point < 0):
+        point = 0
+    db.execute("UPDATE objet SET o_points =%s WHERE o_id =%s;" % (point, id))
+    db.close()
+    return '200', 200, {'Content-Type': 'application/json'}
+
+
 ############ INSCRIPTION ET AFFECTATION DE MISSION #################
 @app.route('/inscription', methods=['post'])
 def ajout_inscrit():
@@ -157,9 +183,9 @@ def ajout_inscrit():
 
 
         #J'ajoute dans la base des objets à trouver pour l'équipe crée
-        db.execute("INSERT INTO objet(o_name, o_found, e_id) VALUES ('%s','%s','%s');"%('arm', 'false', resultat_recherche_equipe[0]['e_id']))
-        db.execute("INSERT INTO objet(o_name, o_found, e_id) VALUES ('%s','%s','%s');"%('dog', 'false', resultat_recherche_equipe[0]['e_id']))
-        db.execute("INSERT INTO objet(o_name, o_found, e_id) VALUES ('%s','%s','%s');"%('screen', 'false',resultat_recherche_equipe[0]['e_id']))
+        db.execute("INSERT INTO objet(o_name, o_found, o_points, e_id) VALUES ('%s','%s','%s','%s');"%('arm', 'false',0, resultat_recherche_equipe[0]['e_id']))
+        db.execute("INSERT INTO objet(o_name, o_found, o_points, e_id) VALUES ('%s','%s','%s','%s');"%('dog', 'false',0, resultat_recherche_equipe[0]['e_id']))
+        db.execute("INSERT INTO objet(o_name, o_found, o_points, e_id) VALUES ('%s','%s','%s','%s');"%('screen', 'false',0,resultat_recherche_equipe[0]['e_id']))
 
         #Je recupère les objets à trouver pour les équipes et je renvois ça au client android
         req = db.select("SELECT * FROM objet where e_id = '%s';" % (resultat_recherche_equipe[0]['e_id']))
@@ -218,7 +244,7 @@ def envoyerimagegoogle():
       
                 db.execute('UPDATE equipe Set e_etat =%s WHERE e_name = %s;',('imgsuccess',datas['nom_equipe']))
                 #RAJOUTER L'UPDATE DE X Y Z ETC
-                db.execute('UPDATE objet Set o_found =%s WHERE e_id = %s AND o_name=%s;',('true',resultat_id_equipe,label))
+                db.execute('UPDATE objet Set o_found =%s, o_points =%s WHERE e_id = %s AND o_name=%s;',('true',1,resultat_id_equipe,label))
                 var_sortie = 1
 		response ={"response":"Photo analysee"}
            else :		

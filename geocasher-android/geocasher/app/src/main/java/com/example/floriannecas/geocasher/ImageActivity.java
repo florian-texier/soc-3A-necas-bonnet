@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
@@ -76,6 +77,14 @@ public class ImageActivity extends AppCompatActivity {
 
             }
         });
+
+        Handler handler = new Handler();
+
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                finish();
+            }
+        }, 120000);
     }
 
     private void imageBrowse() {
