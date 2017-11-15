@@ -41,4 +41,3 @@ INSERT INTO equipe (e_name, e_etat, e_ip) VALUES ('Flo', 'nothingtoshow', 'http:
 INSERT INTO objet (o_name, o_found, e_id) VALUES ('arm', 'false', '1');
 INSERT INTO objet (o_name, o_found, e_id) VALUES ('dog', 'false','1');
 INSERT INTO objet (o_name, o_found, e_id) VALUES ('screen', 'false','1');
-

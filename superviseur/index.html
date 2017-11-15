@@ -1,20 +1,99 @@
 <!Doctype html>
 <html>
 <head>
-    <meta charset="UTF-8"/>
-    <!-- Latest compiled and minified CSS -->
-    <title>Front</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Dashboard for ScavengerHunt</title>
 </head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 <script src="script.js"></script>
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.css"rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <body>
 
-    <h2 id="nbequipe"></h2>
+<section class="hero is-info is-small">
 
-    <ul id="liste_equipe" class="nav nav-pills flex-column"></ul>
+    <!-- Hero content: will be in the middle -->
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <h1 class="title">
+                Scavenger Hunt Dashboard
+            </h1>
+        </div>
+    </div>
 
-    <div id="photo_equipe" class="nav nav-pills flex-column"></div>
+</section>
 
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <nav class="panel">
+                    <p class="panel-heading">
+                        Equipe en tête
+                    </p>
 
+                    <div class="panel-block">
+                        <h4 class="title is-4" id="boxnumber1">No one</h4>
+                    </div>
+                </nav>
+            </div>
+            <div class="column">
+                <nav class="panel">
+                    <p class="panel-heading">
+                        Nombre d'équipes
+                    </p>
+
+                    <div class="panel-block">
+                        <h4 class="title is-4" id="nbequipe">0</h4>
+                    </div>
+                </nav>
+            </div>
+            <div class="column">
+                <nav class="panel">
+                    <p class="panel-heading">
+                        Cortisone
+                    </p>
+
+                    <div class="panel-block">
+                        <h4 class="title is-4" id="boxnumber3">0</h4>
+                    </div>
+
+                    <!--<div class="panel-block">
+                        <button class="button is-primary is-outlined is-fullwidth" disabled>
+                            Next box
+                        </button>
+                    </div>-->
+                </nav>
+            </div>
+
+        </div>
+
+        <div class="tile is-ancestor">
+            <div class="tile is-3 is-vertical is-parent">
+                <div class="tile is-child box">
+                    <p class="title is-5">Liste équipes</p>
+                    <ul id="liste_equipe" class="nav nav-pills flex-column"></ul>
+                </div>
+                <div class="tile is-child box">
+                    <p class="title is-5">Objets trouvés</p>
+                    <ul id="items_found" class="nav nav-pills flex-column"></ul>
+            </div>
+            </div>
+            <div class="tile is-parent">
+                <div class="tile is-child box">
+                    <p class="title">Photo des équipes</p>
+                    <div id="photo_equipe" class="nav nav-pills flex-column"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
 </body>
