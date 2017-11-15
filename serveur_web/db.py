@@ -6,16 +6,17 @@ class Db:
 
   def __init__(self):
     """Initiate a connection to the default postgres database."""
-    urlparse.uses_netloc.append("postgres")
-    url = urlparse.urlparse('postgres://xeekhcpsafcghc:P5Ra5QZs5gL0CHH_CDk3vjsQzy@ec2-54-163-251-104.compute-1.amazonaws.com:5432/d1bogu57kaknqn')
+    #urlparse.uses_netloc.append("postgres")
+    #url = urlparse.urlparse('postgres://xeekhcpsafcghc:P5Ra5QZs5gL0CHH_CDk3vjsQzy@ec2-54-163-251-104.compute-1.amazonaws.com:5432/d1bogu57kaknqn')
 
-    self.conn = psycopg2.connect(
-        database=url.path[1:],
-        user=url.username,
-        password=url.password,
-        host=url.hostname,
-        port=url.port
-    )
+    # self.conn = psycopg2.connect(
+    #     database=url.path[1:],
+    #     user=url.username,
+    #     password=url.password,
+    #     host=url.hostname,
+    #     port=url.port
+    # )
+    self.conn = psycopg2.connect("dbname=postgres user=postgres password=example host=172.20.0.3")
     self.cur = self.conn.cursor()
 
   def describeRow(self, row, columns, subkeys = None):

@@ -125,8 +125,11 @@ def get_images_equipe(id):
 @app.route('/newcontainer', methods=['post'])
 def ajout_container():
     data = request.get_json()
+    ip = 'http://' + data['ip'] + ':5000'
     print(data)
-     #Fermeture de la connection avec la BDD
+    db = Db()
+    db.execute("UPDATE equipe SET e_ip = ('%s') WHERE e_ip IS NULL;" % (ip))
+    db.close()
     return '200', 200, {'Content-Type': 'application/json'}
 
 ############ INSCRIPTION ET AFFECTATION DE MISSION #################
@@ -163,6 +166,7 @@ def ajout_inscrit():
         #print(response)
         response = {"objet":req}
         db.close() 			 #Fermeture de la connection avec la BDD
+        requests.post('http://172.30.1.154:8080/v1-webhooks/endpoint?key=PEKtcWFHQfKud5mqtSUFRVtibxuGn0bDJJOnd2Az&projectId=1a116')
         return json.dumps(response), 200, {'Content-Type': 'application/json'}
 
 ####################################################################
@@ -173,10 +177,16 @@ def ajout_inscrit():
 def envoyerimagegoogle():
 
     datas = request.get_json()		#Recuperation de la requete du client android
+    db = Db()  # Ouverture de la connection avec la BDD
 
+    resultat_recherche_equipe = db.select("SELECT * FROM equipe where e_name = '%s';" % (datas['nom_equipe']))
+    resultat_id_equipe = resultat_recherche_equipe[0]['e_id']
+    resultat_IP_equipe = resultat_recherche_equipe[0]['e_ip']
+
+    print(resultat_IP_equipe)
     toSend = json.dumps({'image':datas['image']})
     headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-    response = requests.post('http://172.18.0.2:5000/analyse', data=toSend, headers=headers)
+    response = requests.post(resultat_IP_equipe + '/analyse', data=toSend, headers=headers)
     dataVision = response.json()
 
 
@@ -185,20 +195,16 @@ def envoyerimagegoogle():
     imageIN = datas['image']
     #Pour les logs j'affiche ce qu'à déterminé GOOGLE VISION
 
-    db = Db()                       # Ouverture de la connection avec la BDD
 
-
-    resultat_recherche_equipe = db.select("SELECT * FROM equipe where e_name = '%s';" % (datas['nom_equipe']))
-    resultat_recherche_equipe = resultat_recherche_equipe[0]['e_id']
 
 
     try:
-        db.execute("INSERT INTO image(i_coordx, i_coordy, i_base64, e_id) VALUES ('%s','%s','%s','%s');"%(datas['lat'], datas['long'], datas['image'],resultat_recherche_equipe))
+        db.execute("INSERT INTO image(i_coordx, i_coordy, i_base64, e_id) VALUES ('%s','%s','%s','%s');"%(datas['lat'], datas['long'], datas['image'],resultat_id_equipe))
     except:
-        db.execute("INSERT INTO image(i_base64, e_id) VALUES ('%s','%s');" % (imageIN, resultat_recherche_equipe))
+        db.execute("INSERT INTO image(i_base64, e_id) VALUES ('%s','%s');" % (imageIN, resultat_id_equipe))
 
     #Je recupère les objets à trouver pour les équipes et je renvois ça au client android
-    objetsdelequipe = db.select("SELECT * FROM objet where e_id = '%s';" % (resultat_recherche_equipe))
+    objetsdelequipe = db.select("SELECT * FROM objet where e_id = '%s';" % (resultat_id_equipe))
     print(objetsdelequipe)
 
     var_sortie = 0			#Je met la variable temporaire à zero, elle me servira à voir si l'image doit passer à fail ou non.
@@ -212,7 +218,7 @@ def envoyerimagegoogle():
       
                 db.execute('UPDATE equipe Set e_etat =%s WHERE e_name = %s;',('imgsuccess',datas['nom_equipe']))
                 #RAJOUTER L'UPDATE DE X Y Z ETC
-                db.execute('UPDATE objet Set o_found =%s WHERE e_id = %s AND o_name=%s;',('true',resultat_recherche_equipe,label))
+                db.execute('UPDATE objet Set o_found =%s WHERE e_id = %s AND o_name=%s;',('true',resultat_id_equipe,label))
                 var_sortie = 1
 		response ={"response":"Photo analysee"}
            else :		

@@ -119,6 +119,8 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
         mbtnSignIn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                changeBtnSignIn(false);
+                changeNameEdit(false);
                 signUser(mNameEditor.getText().toString());
             }
         });
@@ -411,13 +413,15 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
                 Log.i(TAG, "Erreur inscription");
                 Toast toast = Toast.makeText(MainActivity.this, "Utilisateur déja inscrit", Toast.LENGTH_LONG);
                 toast.show();
+                changeBtnSignIn(true);
+                changeNameEdit(true);
             }
         };
 
         Log.e(TAG, postData.toString());
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, endpointUrl, postData, onSuccess, onError);
 
-        request.setRetryPolicy(new DefaultRetryPolicy(15000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        request.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mRequestQueue.add(request);
     }
 
