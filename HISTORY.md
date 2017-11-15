@@ -103,6 +103,16 @@
 	* On a enfin un swarm ! Basé sur l'image du serveur buildé
 	* Ajout de son docker compose
 
+#15/11 :
+* Superviseur terminé, du moins il affiche les infos nécessaires
+	* Permet d'ajouter/supprimer des points
+	* Afiiche les équipes en tête
+
+* Android
+	* Ajout d'un timer pour l'ImageActivity
+
+* Serveur Web/Routeur
+	* Ajout de routes pour les points des objets
 
 
 A GARDER : 
