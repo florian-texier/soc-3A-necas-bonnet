@@ -40,8 +40,8 @@ Notre fabuleux GitHub pour le projet de parcours 3A.
 ## Android
 - Build & Launch the app and play :)
 
-# Documentation
+# Documentation API
 
-La documentation est disponible sur [ce wiki](http://fnecas.ovh:3000/doku.php?id=wiki:scavhunt)
+La documentation API est disponible sur [ce wiki](http://fnecas.ovh:3000/doku.php?id=wiki:scavhunt)
 
 
