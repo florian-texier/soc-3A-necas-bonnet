@@ -51,11 +51,13 @@ import static java.lang.String.format;
 
 
 public class MainActivity extends AppCompatActivity implements BeaconConsumer{
-    private static final int REQUEST_GPS = 1;
     static final int REQUEST_PERMCAM = 1;
     public static final String MyPREFERENCES = "MyPrefs" ;
     int PERMISSION_ALL = 1;
     String BASE_URL = "http://172.30.0.147:5000/";
+    public String IdBeaconBase = "";
+    public String IdBeaconDep = "";
+    public String IdBeaconInsc = "";
 
     static final String TAG = "Geocasher";
 
@@ -92,6 +94,9 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
         mbtnSignIn = (Button) findViewById(R.id.btnSignIn);
         mNameEditor = (EditText) findViewById(R.id.nameEditor);
         mRequestQueue = Volley.newRequestQueue(this);
+
+        getBeaconsIds();
+        Log.e(TAG, IdBeaconBase + " : " + IdBeaconDep + " : " + IdBeaconInsc);
 
         SharedPreferences prefs = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
         String restoredText = prefs.getString("name", null);
@@ -470,6 +475,33 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
                 try {
                     fillListView(response.getJSONArray("liste_objets"));
 
+                } catch (Exception e) {}
+            }
+        };
+
+        Response.ErrorListener onError = new Response.ErrorListener() {
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Message Recu :","Erreur lors de la requête");
+            }
+        };
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, endpointUrl, null, onSuccess, onError);
+
+        mRequestQueue.add(request);
+    }
+
+    void getBeaconsIds() {
+
+        final String endpointUrl = BASE_URL + "getbeaconsid";
+
+        Response.Listener<JSONObject> onSuccess = new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray Ids = response.getJSONArray("ids");
+                    IdBeaconBase = Ids.getString(0);
+                    IdBeaconDep = Ids.getString(1);
+                    IdBeaconInsc = Ids.getString(2);
                 } catch (Exception e) {}
             }
         };
