@@ -12,14 +12,15 @@ Notre fabuleux GitHub pour le projet de parcours 3A.
 	* Android 	(A FAIRE)
 	* Docker 	(A FAIRE)
 	* Front 	(A FAIRE)
+	* Javascript
 	* Trucs compliqués 
 
 
-# Serveur-web sur Heroku 
+# Serveur-web
 	* Installation :
 		* Installed add-ons : POST-SQL 
 		* Pushez notre code et c'est bon.
-		* Faite votrenomdesite.herokuapp.com/reset
+		* Faite votreadresselocal/reset
 		
 	*Routes :
 		* /lireetats (GET) 	- Utilisé par la raspberry-pi 
@@ -34,10 +35,18 @@ Notre fabuleux GitHub pour le projet de parcours 3A.
 			* Fonction : Reset la base de donnée 
 			* Reponse : {'response': 'reset_bdd_OK'}
 			
+			
+			
 		* /inscrit (GET)
 			* Fonction : Retourne les équipes incrites + les informations associées
 			* Reponse : [{"e_id": 1, "e_name": "Flo", "e_etat": "nothingtoshow"}, {"e_id": 2, "e_name": "Jer", "e_etat": "nothingtoshow"}]
-		
+			
+		* /inscription (POST)
+			* Fonction : Ajout d'une équipe dans la base + création de ses objets
+			* Reponse : {"liste_objets": [{"o_name": "arm", "o_coordx": "0", "o_coordy": "0", "o_id": 1, "e_id": 1, "o_image": null, "o_found": "false"}]}
+			
+			
+			
 		* /objets (GET)
 			* Fonction : Retourne tous les objets de toutes les équipes + les informations associées
 			* Reponse : {"liste_objets": [{"o_name": "arm", "o_coordx": "0", "o_coordy": "0", "o_id": 1, "e_id": 1, "o_image": null, "o_found": "false"}]}
@@ -46,18 +55,36 @@ Notre fabuleux GitHub pour le projet de parcours 3A.
 			* Fonction : Retourne les objets d'UNE équipe
 			* Reponse : {"liste_objets": [{"o_name": "arm", "o_coordx": "0", "o_coordy": "0", "o_id": 1, "e_id": 1, "o_image": null, "o_found": "false"}]}
 			
-		* /inscription (POST)
-			* Fonction : Ajout d'une équipe dans la base + création de ses objets
-			* Reponse : {"liste_objets": [{"o_name": "arm", "o_coordx": "0", "o_coordy": "0", "o_id": 1, "e_id": 1, "o_image": null, "o_found": "false"}]}
+		
 			
 		* /images (GET)
 			* Fonction : Afficher toutes les photos de toutes les équipes
 			* Response : {"e_id": 2, "i_coordy": "2/1,50/1,58/1", "i_coordx": "42/1,40/1,32/1", "i_id": 1, {"i_base64": DONNEES}
 			
-		* /images/<id:equipe> (GET)
+		* /images/<int:equipe> (GET)
 			* Fonction : Afficher toutes les photos d'UNE SEULE Equipe
 			* Response : {"e_id": 2, "i_coordy": "2/1,50/1,58/1", "i_coordx": "42/1,40/1,32/1", "i_id": 1, {"i_base64": DONNEES}
 		
+		* /postimage (POST)
+			* Fonction : Fait la liaison entre l'application mobile et le container de l'équipe
+			* Response :  {"response":"Objet déjà trouvé !"} OU {"response":"Photo analysee"}
+
+			
+			
+		* /objup/<int:id> (GET)
+			* Fonction : Ajouter un point à un objet
+			* Response :  '200'
+			
+		* /objdown/<int:id> (GET)
+			* Fonction : Enlever un point à un objet
+			* Response :  '200'
+			
+			
+			
+		* /newcontainer (POST)
+			* Fonction : Ajouter un container
+			* Response :  '200'
+			
 # Rasbperry-pi 
 	* Pré-requis :
 		* Installer Python3
@@ -72,6 +99,18 @@ Notre fabuleux GitHub pour le projet de parcours 3A.
 		* Requête pour reset les états des équipes (Pour ne pas re-afficher plusieurs fois)
 		* Pour chaque état, si j'ai un succés ou un echec et j'affiche sur le sensor har
 		* Un sleep pour ne pas harceler de manière violente le serveur
+		
+# Superviseur
+
+	# Javascript (Fonction):
+		* function actualisation_donnees() 
+		* function change(n) => en cas de clic, sur la liste d'équipe, j'affiche les images et les objets de l'équipe
+		* function ajouter_une_photo(lapetiteimage, lat, long)
+		* function ajouter_point_objet n,id_equipe
+		* function enlever_point_objetn,id_equipe
+		* $('.button').on('click',function ()
+		* function ajouter_un_objet(idobjet,name,found,points,idequipe) 
+		* function ajoute_une_equipe_dans_la_liste(e)
 
 # Android
 
