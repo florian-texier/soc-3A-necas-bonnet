@@ -113,7 +113,14 @@
 
 * Serveur Web/Routeur
 	* Ajout de routes pour les points des objets
-
+	
+#16/11 
+	* Raspberry Pi :
+		* On a pas réussi à faire demarrarer en automatique le script python au démarrage de la pi.
+	* Tests unitaires/intégration
+	* Commentaires et ménage dans le JavaScript
+	* Dockerisation du site web
+	* Ajout dans la BDD d'une table Beacon pour avoir les ids et les modifier facilement
 
 A GARDER : 
 Tuto activer beacon sur Raspberry => https://learn.adafruit.com/pibeacon-ibeacon-with-a-raspberry-pi?view=all
