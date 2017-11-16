@@ -1,0 +1,8 @@
+version: "2"
+services:
+  superviseur:
+      image: nginx
+      volumes:
+      - ".:/usr/share/nginx/html:ro"
+      ports:
+      - "8088:80"

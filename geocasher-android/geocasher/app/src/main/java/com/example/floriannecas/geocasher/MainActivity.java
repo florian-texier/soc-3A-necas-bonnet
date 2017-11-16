@@ -55,9 +55,9 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
     public static final String MyPREFERENCES = "MyPrefs" ;
     int PERMISSION_ALL = 1;
     String BASE_URL = "http://172.30.0.147:5000/";
-    public final String IdBeaconBase = "0x87215b15b7f8b917f4b0";
-    public final String IdBeaconDep = "0xc0ffee0ff1c3";
-    public final String IdBeaconInsc = "0x420666122eab";
+    public final String IdBeaconBase = "0xdeadbeef1ee7cafebabe";
+    public final String IdBeaconDep =  "0xc0ffee0ff1c3";
+    public final String IdBeaconInsc = "0xc0ffee0ff1ce";
 
     static final String TAG = "Geocasher";
 
@@ -323,17 +323,17 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
                             displayRepBeacon("Beacon Repo distance : " + format("%.2f", beacon.getDistance()) + " m");
 
                             String restoredText = prefs.getString("name", null);
-                            if(beacon.getDistance() < 4 && restoredText != null){
+                            if(beacon.getDistance() < 1 && restoredText != null){
                                 changeBtnImageState(true);
                             }
-                            else if(beacon.getDistance() > 4 && restoredText != null){
+                            else if(beacon.getDistance() > 1 && restoredText != null){
                                 changeBtnImageState(false);
                             }
                         }
                         else if (beacon.getId2().toString().equals(IdBeaconInsc)){
                             //Log.i(TAG, "Depo beacon");
                             String restoredText = prefs.getString("name", null);
-                            if(beacon.getDistance() < 4 && restoredText == null) {
+                            if(beacon.getDistance() < 1 && restoredText == null) {
                                 changeBtnSignIn(true);
                                 changeNameEdit(true);
                             }
