@@ -55,9 +55,9 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
     public static final String MyPREFERENCES = "MyPrefs" ;
     int PERMISSION_ALL = 1;
     String BASE_URL = "http://172.30.0.147:5000/";
-    public String IdBeaconBase = "";
-    public String IdBeaconDep = "";
-    public String IdBeaconInsc = "";
+    public final String IdBeaconBase = "0x87215b15b7f8b917f4b0";
+    public final String IdBeaconDep = "0xc0ffee0ff1c3";
+    public final String IdBeaconInsc = "0x420666122eab";
 
     static final String TAG = "Geocasher";
 
@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         objectList = new ArrayList<>();
 
         mList = (ListView) findViewById(R.id.listView);
@@ -95,8 +96,6 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
         mNameEditor = (EditText) findViewById(R.id.nameEditor);
         mRequestQueue = Volley.newRequestQueue(this);
 
-        getBeaconsIds();
-        Log.e(TAG, IdBeaconBase + " : " + IdBeaconDep + " : " + IdBeaconInsc);
 
         SharedPreferences prefs = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
         String restoredText = prefs.getString("name", null);
@@ -113,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
             // will be setup in "onRequestPermissionsResult"
         }
 
+        Log.e(TAG, IdBeaconBase + " : " + IdBeaconDep + " : " + IdBeaconInsc);
 
         mbtnSelectImage.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -314,11 +314,10 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
             public void didRangeBeaconsInRegion(Collection<Beacon> collection, Region region) {
                 SharedPreferences prefs = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
                 for(Beacon beacon : collection) {
-                    //Log.i(TAG, "Detected beacon : " + beacon.getId1().toString());
-                    //Log.i(TAG, "ID2 : " + beacon.getId2().toString());
-                    if (beacon.getId1().toString().equals("0xdeadbeef1ee7cafebabe")) {
+                    //Log.i(TAG, "Beacon : " + beacon.getId1().toString() + ":" + beacon.getId2().toString());
+                    if (beacon.getId1().toString().equals(IdBeaconBase)) {
                         //Log.i(TAG, "ID passed : " + beacon.getId2().toString());
-                        if (beacon.getId2().toString().equals("0xc0ffee0ff1c3")){
+                        if (beacon.getId2().toString().equals(IdBeaconDep)){
 
                             //Log.i(TAG, "Repo beacon");
                             displayRepBeacon("Beacon Repo distance : " + format("%.2f", beacon.getDistance()) + " m");
@@ -331,7 +330,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
                                 changeBtnImageState(false);
                             }
                         }
-                        else if (beacon.getId2().toString().equals("0xc0ffee0ff1ce")){
+                        else if (beacon.getId2().toString().equals(IdBeaconInsc)){
                             //Log.i(TAG, "Depo beacon");
                             String restoredText = prefs.getString("name", null);
                             if(beacon.getDistance() < 4 && restoredText == null) {
@@ -475,33 +474,6 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
                 try {
                     fillListView(response.getJSONArray("liste_objets"));
 
-                } catch (Exception e) {}
-            }
-        };
-
-        Response.ErrorListener onError = new Response.ErrorListener() {
-            public void onErrorResponse(VolleyError error) {
-                Log.e("Message Recu :","Erreur lors de la requête");
-            }
-        };
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, endpointUrl, null, onSuccess, onError);
-
-        mRequestQueue.add(request);
-    }
-
-    void getBeaconsIds() {
-
-        final String endpointUrl = BASE_URL + "getbeaconsid";
-
-        Response.Listener<JSONObject> onSuccess = new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    JSONArray Ids = response.getJSONArray("ids");
-                    IdBeaconBase = Ids.getString(0);
-                    IdBeaconDep = Ids.getString(1);
-                    IdBeaconInsc = Ids.getString(2);
                 } catch (Exception e) {}
             }
         };

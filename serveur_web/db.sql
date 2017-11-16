@@ -33,7 +33,7 @@ CREATE TABLE image(
 
 CREATE TABLE beacon(
 	b_id     SERIAL NOT NULL ,
-	b_uid VARCHAR (25)  ,
+	b_uid VARCHAR (25)
 );
 
 

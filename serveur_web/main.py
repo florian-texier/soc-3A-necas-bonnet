@@ -260,16 +260,5 @@ def envoyerimagegoogle():
     db.close()				#Fermeture de la connection avec la BDD
     return json.dumps(response), 201, {'Content-Type': 'application/json'}
 
-
-#######
-
-@app.route('/getbeaconsid', methods=['GET'])
-def getbeaconbyid():
-	db = Db()  # Ouverture de la connection avec la BDD
-    req = db.select("SELECT * FROM objet where e_id = '%s';" % (resultat_recherche_equipe[0]['e_id']))
-    response = {"ids":req}
-	db.close()				#Fermeture de la connection avec la BDD
-	return json.dumps(response), 201, {'Content-Type': 'application/json'}
-
 if __name__ == "__main__":
   app.run(host="0.0.0.0", port=5000)
