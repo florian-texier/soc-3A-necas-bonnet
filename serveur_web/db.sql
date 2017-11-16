@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS objet CASCADE;
 DROP TABLE IF EXISTS image CASCADE;
 DROP TABLE IF EXISTS equipe CASCADE;
-
+DROP TABLE IF EXISTS beacon CASCADE;
 
 
 CREATE TABLE equipe(
@@ -31,6 +31,13 @@ CREATE TABLE image(
 	CONSTRAINT prk_constraint_image PRIMARY KEY (i_id)
 );
 
+CREATE TABLE beacon(
+	b_id     SERIAL NOT NULL ,
+	b_uid VARCHAR (25)  ,
+);
+
+
+
 ALTER TABLE public.image ADD CONSTRAINT FK_image_e_id FOREIGN KEY (e_id) REFERENCES public.equipe(e_id);
 
 
@@ -42,3 +49,7 @@ INSERT INTO equipe (e_name, e_etat, e_ip) VALUES ('Flo', 'nothingtoshow', 'http:
 INSERT INTO objet (o_name, o_found, o_points, e_id) VALUES ('arm', 'false',0, '1');
 INSERT INTO objet (o_name, o_found, o_points, e_id) VALUES ('dog', 'false',0,'1');
 INSERT INTO objet (o_name, o_found, o_points, e_id) VALUES ('screen', 'false',0,'1');
+
+INSERT INTO beacon (b_uid) VALUES ('0xdeadbeef1ee7cafebabe');
+INSERT INTO beacon (b_uid) VALUES ('0xc0ffee0ff1c3');
+INSERT INTO beacon (b_uid) VALUES ('0xc0ffee0ff1ce');
