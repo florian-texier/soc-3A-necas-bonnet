@@ -40,8 +40,21 @@ Notre fabuleux GitHub pour le projet de parcours 3A.
 ## Android
 - Build & Launch the app and play :)
 
+## Développé avec
+
+* [Flask](http://flask.pocoo.org/) - Framework web utilisé
+* [Bulma](https://bulma.io/) - Meilleur framework CSS ayant jamais existé
+* [Docker](https://www.docker.com/) - Des containers, encore des containers
+* [Rancher](http://rancher.com/) - Swarm de containers, encore des containers
+* [Nginx](https://nginx.org/en/) - Serveur du superviseur
+* [Postgresql](https://www.postgresql.org/?&) - Pour la BDD, bien évidemment
+* [Volley](https://developer.android.com/training/volley/index.html) - Parce qu'Android aussi communique
+
 # Documentation API
 
 La documentation API est disponible sur [ce wiki](http://fnecas.ovh:3000/doku.php?id=wiki:scavhunt)
+
+
+
 
 
