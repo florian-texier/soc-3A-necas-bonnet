@@ -181,11 +181,10 @@ def ajout_inscrit():
         resultat_recherche_equipe = db.select("SELECT * FROM equipe where e_name = '%s';" % (data['nom_equipe']))
         print('Log - Création utilisateur dans la base')
 
-
+        listeobjetacree=['arm','dog','screen']
         #J'ajoute dans la base des objets à trouver pour l'équipe crée
-        db.execute("INSERT INTO objet(o_name, o_found, o_points, e_id) VALUES ('%s','%s','%s','%s');"%('arm', 'false',0, resultat_recherche_equipe[0]['e_id']))
-        db.execute("INSERT INTO objet(o_name, o_found, o_points, e_id) VALUES ('%s','%s','%s','%s');"%('dog', 'false',0, resultat_recherche_equipe[0]['e_id']))
-        db.execute("INSERT INTO objet(o_name, o_found, o_points, e_id) VALUES ('%s','%s','%s','%s');"%('screen', 'false',0,resultat_recherche_equipe[0]['e_id']))
+        for objet in listeobjetacree:
+            db.execute("INSERT INTO objet(o_name, o_found, o_points, e_id) VALUES ('%s','%s','%s','%s');"%(objet, 'false',0, resultat_recherche_equipe[0]['e_id']))
 
         #Je recupère les objets à trouver pour les équipes et je renvois ça au client android
         req = db.select("SELECT * FROM objet where e_id = '%s';" % (resultat_recherche_equipe[0]['e_id']))
