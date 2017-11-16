@@ -1,4 +1,4 @@
-# soc-3A-necas-bonnet
+# Scavenger Hunt Necas Bonnet
 Notre fabuleux GitHub pour le projet de parcours 3A.
 
 ## Authors
@@ -6,127 +6,42 @@ Notre fabuleux GitHub pour le projet de parcours 3A.
 * **Jérome Bonnet** - *Le blond*
 * **Florian Necas** - *Le brun*
 
-# Sommaire : 
-	* Serveur-web
-	* Rasbperry-pi
-	* Android 	(A FAIRE)
-	* Docker 	(A FAIRE)
-	* Front 	(A FAIRE)
-	* Javascript
-	* Trucs compliqués 
+# Pré-requis
+- Un PC Hote Rancher
+- Un PC Serveur avec Docker
+- Une Raspberry Pi + Pi HAT 
+- Un téléphone Android
+- Le git https://github.com/jeromebonnet/soc-3A-necas-bonnet
+
+# Installation
+
+## PC Rancher serveur : 
+- Déployer une stack de l'image fnecasimerir/swarvision avec le docker-compose situé dans le dossier swarmCompose
+
+## PC Serveur :
+- Déployer une image Docker de fnecasimerir/superviscav
+- Déployer une image postgresql avec comme mot de passe : example | user : postgres | db : postgres
+- Télécharger les fichiers du git et executer :
 
 
-# Serveur-web
-	* Installation :
-		* Installed add-ons : POST-SQL 
-		* Pushez notre code et c'est bon.
-		* Faite votreadresselocal/reset
-		
-	*Routes :
-		* /lireetats (GET) 	- Utilisé par la raspberry-pi 
-			* Fonction : Retourne un tableau d'états avec des objets de types JSON 
-			* Reponse : [{'id':nomdelequipe,'etat':etat}]
-			
-		* /resetetats(GET)	- Utilisé par la raspberry-pi 
-			* Fonction : Remet les états de toutes les équipes à "nothingtoshow" 
-			* Reponse : {'response': 'reset_etat_OK'}
-			
-		* /reset (GET)
-			* Fonction : Reset la base de donnée 
-			* Reponse : {'response': 'reset_bdd_OK'}
-			
-			
-			
-		* /inscrit (GET)
-			* Fonction : Retourne les équipes incrites + les informations associées
-			* Reponse : [{"e_id": 1, "e_name": "Flo", "e_etat": "nothingtoshow"}, {"e_id": 2, "e_name": "Jer", "e_etat": "nothingtoshow"}]
-			
-		* /inscription (POST)
-			* Fonction : Ajout d'une équipe dans la base + création de ses objets
-			* Reponse : {"liste_objets": [{"o_name": "arm", "o_coordx": "0", "o_coordy": "0", "o_id": 1, "e_id": 1, "o_image": null, "o_found": "false"}]}
-			
-			
-			
-		* /objets (GET)
-			* Fonction : Retourne tous les objets de toutes les équipes + les informations associées
-			* Reponse : {"liste_objets": [{"o_name": "arm", "o_coordx": "0", "o_coordy": "0", "o_id": 1, "e_id": 1, "o_image": null, "o_found": "false"}]}
-			
-		* /objets/<int:id> (GET)
-			* Fonction : Retourne les objets d'UNE équipe
-			* Reponse : {"liste_objets": [{"o_name": "arm", "o_coordx": "0", "o_coordy": "0", "o_id": 1, "e_id": 1, "o_image": null, "o_found": "false"}]}
-			
-		
-			
-		* /images (GET)
-			* Fonction : Afficher toutes les photos de toutes les équipes
-			* Response : {"e_id": 2, "i_coordy": "2/1,50/1,58/1", "i_coordx": "42/1,40/1,32/1", "i_id": 1, {"i_base64": DONNEES}
-			
-		* /images/<int:equipe> (GET)
-			* Fonction : Afficher toutes les photos d'UNE SEULE Equipe
-			* Response : {"e_id": 2, "i_coordy": "2/1,50/1,58/1", "i_coordx": "42/1,40/1,32/1", "i_id": 1, {"i_base64": DONNEES}
-		
-		* /postimage (POST)
-			* Fonction : Fait la liaison entre l'application mobile et le container de l'équipe
-			* Response :  {"response":"Objet déjà trouvé !"} OU {"response":"Photo analysee"}
-
-			
-			
-		* /objup/<int:id> (GET)
-			* Fonction : Ajouter un point à un objet
-			* Response :  '200'
-			
-		* /objdown/<int:id> (GET)
-			* Fonction : Enlever un point à un objet
-			* Response :  '200'
-			
-			
-			
-		* /newcontainer (POST)
-			* Fonction : Ajouter un container
-			* Response :  '200'
-			
-# Rasbperry-pi 
-	* Pré-requis :
-		* Installer Python3
-		* Librairie à avoir : sense_hat,requests,time
-
-	* Utilisation :
-		* Se connecter sur votre Rasbperry-pi en SSH
-		* Excuter => python3 main.py
-		
-	* Fonctionnement :
-		* Requête pour récupérer tous les états des équipes 
-		* Requête pour reset les états des équipes (Pour ne pas re-afficher plusieurs fois)
-		* Pour chaque état, si j'ai un succés ou un echec et j'affiche sur le sensor har
-		* Un sleep pour ne pas harceler de manière violente le serveur
-		
-# Superviseur
-
-	# Javascript (Fonction):
-		* function actualisation_donnees() 
-		* function change(n) => en cas de clic, sur la liste d'équipe, j'affiche les images et les objets de l'équipe
-		* function ajouter_une_photo(lapetiteimage, lat, long)
-		* function ajouter_point_objet n,id_equipe
-		* function enlever_point_objetn,id_equipe
-		* $('.button').on('click',function ()
-		* function ajouter_un_objet(idobjet,name,found,points,idequipe) 
-		* function ajoute_une_equipe_dans_la_liste(e)
-
-# Android
-
-* [Android Image Upload](https://github.com/akrajilwar/Android-Image-Upload/) 
-* Utilisation de cette partie en supprimant le multipart form et en faisant une requete JSON à la place.
-* Envoi de l'image en base 64
-
-* Utilisation du code de Pierre Grabolosa.
-
-# Docker 
-
-* Simple serveur Flask avec une route POST /analyse, qui renvoie le premier label détecté.
+    pip install -r serveur_web/requirements.txt
+    python serveur_web/main.py
 
 
-# Trucs compliqués 
-* Affichier l'image en base64 en JS :  $("<img>", {"src": "data:image/png;base64," + lapetiteimage,"width": "250px", "height": "250px"}).appendTo("#photo_equipe");
-	
-	
-	
+## Raspberry
+- Uploader les fichiers du dossier Git /module_pi et executer
+
+
+    pip install sense_hat
+    pip install requests
+    python3 main.py
+
+
+## Android
+- Build & Launch the app and play :)
+
+# Documentation
+
+La documentation est disponible sur [ce wiki](http://fnecas.ovh:3000/doku.php?id=wiki:scavhunt)
+
+
