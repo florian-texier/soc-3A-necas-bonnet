@@ -274,6 +274,15 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
     void processBarcodes(SparseArray<Barcode> barcodes) {
         if (barcodes.size() != 0) {
             displayText(barcodes.valueAt(0).displayValue);
+            SharedPreferences prefs = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
+            String restoredText = prefs.getString("name", null);
+            if (restoredText != null && barcodes.valueAt(0).displayValue.equals("1003")) {
+                changeBtnImageState(true);
+            }
+            else if (restoredText == null && barcodes.valueAt(0).displayValue.equals("1001")){
+                changeBtnSignIn(true);
+                changeNameEdit(true);
+            }
         } else {
             displayText("No barcode detected.");
         }
@@ -415,7 +424,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.i(TAG, "Erreur inscription");
-                Toast toast = Toast.makeText(MainActivity.this, "Utilisateur déja inscrit", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(MainActivity.this, "Erreur" + error, Toast.LENGTH_LONG);
                 toast.show();
                 changeBtnSignIn(true);
                 changeNameEdit(true);
