@@ -2,11 +2,9 @@
 Notre fabuleux GitHub pour le projet de parcours 3A.
 
 ![Logo](./logo.jpg?raw=true "Logo")
+## Description
 
-## Authors
-
-* **Jérome Bonnet** - *Le blond*
-* **Florian Necas** - *Le brun*
+Scavenger Hunt est un jeu de recherche d'objet mais avant tout un projet d'intégration. Développé au sein de l'IMERIR, Scavenger Hunt permet d'intégrer une application Android avec des Beacons, Qr Code et Serveur Web. La partie "infrastructure" est composée de Google Cloud Vision, Rancher, Docker Swarm et Bulma.
 
 # Pré-requis
 - Un PC Hote Rancher
@@ -52,6 +50,11 @@ Notre fabuleux GitHub pour le projet de parcours 3A.
 * [Nginx](https://nginx.org/en/) - Serveur du superviseur
 * [Postgresql](https://www.postgresql.org/?&) - Pour la BDD, bien évidemment
 * [Volley](https://developer.android.com/training/volley/index.html) - Parce qu'Android aussi communique
+
+## Authors
+
+* **Jérome Bonnet** - *Le blond*
+* **Florian Necas** - *Le brun*
 
 # Documentation API
 
