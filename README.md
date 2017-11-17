@@ -25,9 +25,10 @@ Notre fabuleux GitHub pour le projet de parcours 3A.
 - Déployer une image postgresql avec comme mot de passe : example | user : postgres | db : postgres
 - Télécharger les fichiers du git et executer :
 
-
+```
     pip install -r serveur_web/requirements.txt
     python serveur_web/main.py
+```
 
 
 ## Raspberry
