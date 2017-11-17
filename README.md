@@ -1,6 +1,8 @@
 # Scavenger Hunt Necas Bonnet
 Notre fabuleux GitHub pour le projet de parcours 3A.
 
+![./logo.jpg?raw=true "Logo"]
+
 ## Authors
 
 * **Jérome Bonnet** - *Le blond*
