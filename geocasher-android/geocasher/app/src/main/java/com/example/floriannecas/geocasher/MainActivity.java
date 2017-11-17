@@ -424,7 +424,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer{
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.i(TAG, "Erreur inscription");
-                Toast toast = Toast.makeText(MainActivity.this, "Erreur" + error, Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(MainActivity.this, "Nom d'utilisateur déja pris", Toast.LENGTH_LONG);
                 toast.show();
                 changeBtnSignIn(true);
                 changeNameEdit(true);
