@@ -33,11 +33,11 @@ Notre fabuleux GitHub pour le projet de parcours 3A.
 ## Raspberry
 - Uploader les fichiers du dossier Git /module_pi et executer
 
-
+```
     pip install sense_hat
     pip install requests
     python3 main.py
-
+```
 
 ## Android
 - Build & Launch the app and play :)
